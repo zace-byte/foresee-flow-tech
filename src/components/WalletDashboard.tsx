@@ -53,7 +53,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
               <Wallet className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">ZacsTester</h1>
+              <h1 className="text-2xl font-bold">Johns Coinbase</h1>
               <p className="text-muted-foreground">zz477496@gmail.com</p>
             </div>
           </div>
