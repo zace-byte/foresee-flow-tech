@@ -64,7 +64,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
         </div>
 
         {/* Balance Card */}
-        <Card className="p-6 bg-gradient-card">
+        <Card className="p-6 shadow-card-custom border-0">
           <div className="flex justify-between items-start mb-4">
             <div>
               <div className="flex items-center space-x-2 mb-2">
@@ -124,7 +124,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
         </Card>
 
         {/* Recent Transactions */}
-        <Card className="p-6 bg-gradient-card">
+        <Card className="p-6 shadow-card-custom border-0">
           <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
           <div className="space-y-3">
             {transactions.map((tx) => (
@@ -163,7 +163,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4 bg-gradient-card">
+            <Card className="p-4 shadow-card-custom border-0">
             <div className="text-center">
               <p className="text-sm text-muted-foreground">24h Change</p>
               <p className="text-lg font-bold text-bull">+$2,340.50</p>
@@ -171,7 +171,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
             </div>
           </Card>
           
-          <Card className="p-4 bg-gradient-card">
+          <Card className="p-4 shadow-card-custom border-0">
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Portfolio Value</p>
               <p className="text-lg font-bold">${usdValue.toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>

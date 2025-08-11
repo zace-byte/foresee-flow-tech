@@ -9,19 +9,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md transition-all",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md hover:shadow-lg",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm hover:shadow-md",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-105 font-semibold px-8 py-3",
-        trading: "bg-bull text-success-foreground hover:bg-bull/90 shadow-md hover:shadow-lg",
-        danger: "bg-bear text-destructive-foreground hover:bg-bear/90 shadow-md hover:shadow-lg",
-        premium: "bg-gradient-card border border-primary/20 text-foreground hover:border-primary/40 hover:shadow-trading",
+        premium: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md transition-all",
+        trading: "bg-success text-success-foreground hover:bg-success/90 shadow-sm hover:shadow-md",
       },
       size: {
         default: "h-10 px-4 py-2",

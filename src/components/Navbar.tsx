@@ -79,7 +79,7 @@ const Navbar = () => {
               <Button variant="outline" size="sm">
                 Login
               </Button>
-              <Button variant="hero" size="sm">
+              <Button variant="premium" size="sm">
                 Get Started
               </Button>
             </div>

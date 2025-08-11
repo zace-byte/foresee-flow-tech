@@ -38,7 +38,7 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button variant="hero" size="lg" className="group">
+              <Button variant="premium" size="lg" className="group">
                 Start Trading Now
                 <TrendingUp className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
