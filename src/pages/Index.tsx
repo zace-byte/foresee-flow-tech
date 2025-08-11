@@ -1,17 +1,17 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import TradingDashboard from "@/components/TradingDashboard";
+import { useState } from "react";
+import LoginForm from "@/components/LoginForm";
+import WalletDashboard from "@/components/WalletDashboard";
 
 const Index = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      <HeroSection />
-      <FeaturesSection />
-      <div className="border-t border-border">
-        <TradingDashboard />
-      </div>
+      {isLoggedIn ? (
+        <WalletDashboard onLogout={() => setIsLoggedIn(false)} />
+      ) : (
+        <LoginForm onLogin={() => setIsLoggedIn(true)} />
+      )}
     </div>
   );
 };
