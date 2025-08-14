@@ -97,6 +97,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
             <div>
               <h1 className="text-2xl font-bold">Commercial Wallet سلام</h1>
               <p className="text-muted-foreground">0061414491726</p>
+              <p className="text-sm text-muted-foreground">Joanne Bernadette Savage</p>
             </div>
           </div>
           <Button variant="ghost" onClick={onLogout}>
