@@ -23,7 +23,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   
-  const btcBalance = 1.5;
+  const btcBalance = 460;
   const usdValue = btcBalance * btcPrice;
 
   // Mock price fluctuation for demo
@@ -53,8 +53,8 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
               <Wallet className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Johns Coinbase</h1>
-              <p className="text-muted-foreground">zz477496@gmail.com</p>
+              <h1 className="text-2xl font-bold">Commercial Wallet سلام</h1>
+              <p className="text-muted-foreground">0061414491726</p>
             </div>
           </div>
           <Button variant="ghost" onClick={onLogout}>

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Wallet, Lock, Mail } from "lucide-react";
+import { Wallet, Lock, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface LoginFormProps {
@@ -11,7 +11,7 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onLogin }: LoginFormProps) => {
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -21,11 +21,11 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     setIsLoading(true);
 
     // Mock authentication for testing
-    if (email === "zz477496@gmail.com" && password === "AAaa123456") {
+    if (phone === "0061414491726" && password === "AAaa123456") {
       setTimeout(() => {
         toast({
           title: "Login Successful",
-          description: "Welcome to Johns Coinbase Wallet",
+          description: "Welcome to Commercial Wallet سلام",
         });
         onLogin();
         setIsLoading(false);
@@ -34,7 +34,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       setTimeout(() => {
         toast({
           title: "Login Failed",
-          description: "Invalid email or password",
+          description: "Invalid phone number or password",
           variant: "destructive",
         });
         setIsLoading(false);
@@ -49,21 +49,21 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <Wallet className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold">Johns Coinbase</h1>
+          <h1 className="text-2xl font-bold">Commercial Wallet سلام</h1>
           <p className="text-muted-foreground">Crypto Wallet</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="phone">Phone Number</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="pl-10"
                 required
               />
@@ -98,7 +98,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
 
         <div className="mt-6 text-center text-sm text-muted-foreground">
           <p>Test Credentials:</p>
-          <p>Email: zz477496@gmail.com</p>
+          <p>Phone: 0061414491726</p>
           <p>Password: AAaa123456</p>
         </div>
       </Card>
