@@ -96,11 +96,6 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-muted-foreground">
-          <p>Test Credentials:</p>
-          <p>Phone: 0061414491726</p>
-          <p>Password: AAaa123456</p>
-        </div>
       </Card>
     </div>
   );
