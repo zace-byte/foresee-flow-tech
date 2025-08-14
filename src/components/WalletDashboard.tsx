@@ -19,28 +19,45 @@ interface WalletDashboardProps {
 }
 
 const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
-  const [btcPrice, setBtcPrice] = useState(67420.50); // Mock BTC price
+  const [btcPrice, setBtcPrice] = useState(0);
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(true);
   
   const btcBalance = 460;
   const usdValue = btcBalance * btcPrice;
 
-  // Mock price fluctuation for demo
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const change = (Math.random() - 0.5) * 1000; // Random change up to ±$500
-      setBtcPrice(prev => Math.max(0, prev + change));
+  // Fetch real BTC price
+  const fetchBtcPrice = async () => {
+    try {
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+      const data = await response.json();
+      setBtcPrice(data.bitcoin.usd);
       setLastUpdated(new Date());
-    }, 5000);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching BTC price:', error);
+      setBtcPrice(67420.50); // Fallback price
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    fetchBtcPrice();
+    
+    // Update price every 30 seconds
+    const interval = setInterval(fetchBtcPrice, 30000);
     return () => clearInterval(interval);
   }, []);
 
   const transactions = [
-    { id: "1", type: "received", amount: 0.5, date: "2024-01-15", hash: "1A1zP1..." },
-    { id: "2", type: "sent", amount: 0.2, date: "2024-01-14", hash: "1BvBMS..." },
-    { id: "3", type: "received", amount: 1.2, date: "2024-01-13", hash: "1Df6HJ..." }
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 460, 
+      date: new Date().toISOString().split('T')[0], 
+      hash: "bc1qxy..." 
+    }
   ];
 
   return (
@@ -100,7 +117,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
                 Live Price
               </Badge>
               <p className="text-lg font-semibold">
-                ${btcPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                {isLoading ? 'Loading...' : `$${btcPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
               </p>
               <p className="text-sm text-muted-foreground">
                 Updated: {lastUpdated.toLocaleTimeString()}
