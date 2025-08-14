@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Wallet, 
   TrendingUp, 
@@ -11,7 +13,8 @@ import {
   Download,
   Eye,
   EyeOff,
-  LogOut
+  LogOut,
+  Copy
 } from "lucide-react";
 
 interface WalletDashboardProps {
@@ -23,6 +26,9 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
+  const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
+  const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
+  const { toast } = useToast();
   
   const btcBalance = 460;
   const usdValue = btcBalance * btcPrice;
@@ -59,6 +65,25 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
       hash: "bc1qxy..." 
     }
   ];
+
+  const depositAddress = "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu";
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied to clipboard",
+        description: "Address has been copied successfully",
+      });
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      toast({
+        title: "Copy failed",
+        description: "Please copy the address manually",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background p-4">
@@ -126,11 +151,19 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
           </div>
 
           <div className="flex space-x-3 mt-6">
-            <Button className="flex-1" variant="premium">
+            <Button 
+              className="flex-1" 
+              variant="premium"
+              onClick={() => setIsSendDialogOpen(true)}
+            >
               <Send className="w-4 h-4 mr-2" />
               Send
             </Button>
-            <Button className="flex-1" variant="trading">
+            <Button 
+              className="flex-1" 
+              variant="trading"
+              onClick={() => setIsReceiveDialogOpen(true)}
+            >
               <Download className="w-4 h-4 mr-2" />
               Receive
             </Button>
@@ -197,6 +230,50 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
           </Card>
         </div>
       </div>
+
+      {/* Send Dialog */}
+      <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Withdrawal Notice</DialogTitle>
+          </DialogHeader>
+          <div className="text-center py-6">
+            <p className="text-lg text-muted-foreground">
+              Minimum withdrawal is <span className="font-bold text-primary">460.10 BTC</span>
+            </p>
+            <p className="text-muted-foreground mt-2">
+              Please top up to be able to withdraw.
+            </p>
+          </div>
+          <Button onClick={() => setIsSendDialogOpen(false)} className="w-full">
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* Receive Dialog */}
+      <Dialog open={isReceiveDialogOpen} onOpenChange={setIsReceiveDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Your Deposit Address</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="p-4 bg-muted rounded-lg">
+              <p className="text-sm font-mono break-all text-center">
+                {depositAddress}
+              </p>
+            </div>
+            <Button 
+              onClick={() => copyToClipboard(depositAddress)}
+              className="w-full"
+              variant="outline"
+            >
+              <Copy className="w-4 h-4 mr-2" />
+              Copy Address
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
