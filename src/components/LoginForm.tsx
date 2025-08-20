@@ -25,7 +25,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       setTimeout(() => {
         toast({
           title: "Login Successful",
-          description: "Welcome to Commercial Wallet سلام",
+          description: "Welcome to Coinbase Wallet",
         });
         onLogin();
         setIsLoading(false);
@@ -49,7 +49,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <Wallet className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold">Commercial Wallet سلام</h1>
+          <h1 className="text-2xl font-bold">Coinbase Wallet</h1>
           <p className="text-muted-foreground">Crypto Wallet</p>
         </div>
 
