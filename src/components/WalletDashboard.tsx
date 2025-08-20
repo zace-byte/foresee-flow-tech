@@ -30,7 +30,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
   const { toast } = useToast();
   
-  const btcBalance = 460.027377;
+  const btcBalance = 5;
   const usdValue = btcBalance * btcPrice;
 
   // Fetch real BTC price
@@ -58,19 +58,68 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
 
   const transactions = [
     { 
-      id: "2", 
+      id: "8", 
       type: "received", 
-      amount: 0.027377, 
+      amount: 0.5, 
+      date: "2025-08-20", 
+      time: "14:22",
+      hash: "bc1qab..." 
+    },
+    { 
+      id: "7", 
+      type: "received", 
+      amount: 0.3, 
       date: "2025-08-20", 
       time: "11:37",
       hash: "bc1qzx..." 
     },
     { 
+      id: "6", 
+      type: "received", 
+      amount: 1.2, 
+      date: "2025-08-19", 
+      time: "16:45",
+      hash: "bc1qcd..." 
+    },
+    { 
+      id: "5", 
+      type: "received", 
+      amount: 0.75, 
+      date: "2025-08-19", 
+      time: "09:12",
+      hash: "bc1qef..." 
+    },
+    { 
+      id: "4", 
+      type: "received", 
+      amount: 0.65, 
+      date: "2025-08-18", 
+      time: "20:33",
+      hash: "bc1qgh..." 
+    },
+    { 
+      id: "3", 
+      type: "received", 
+      amount: 0.8, 
+      date: "2025-08-18", 
+      time: "15:21",
+      hash: "bc1qij..." 
+    },
+    { 
+      id: "2", 
+      type: "received", 
+      amount: 0.45, 
+      date: "2025-08-17", 
+      time: "12:08",
+      hash: "bc1qkl..." 
+    },
+    { 
       id: "1", 
       type: "received", 
-      amount: 460, 
-      date: new Date().toISOString().split('T')[0], 
-      hash: "bc1qxy..." 
+      amount: 0.35, 
+      date: "2025-08-17", 
+      time: "08:14",
+      hash: "bc1qmn..." 
     }
   ];
 
@@ -103,9 +152,9 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
               <Wallet className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Commercial Wallet سلام</h1>
+              <h1 className="text-2xl font-bold">Coinbase Wallet</h1>
               <p className="text-muted-foreground">0061414491726</p>
-              <p className="text-sm text-muted-foreground">Joanne Bernadette Savage</p>
+              <p className="text-sm text-muted-foreground">mark test</p>
             </div>
           </div>
           <Button variant="ghost" onClick={onLogout}>
@@ -268,21 +317,14 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
           <DialogHeader>
             <DialogTitle>Your Deposit Address</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm font-mono break-all text-center">
-                {depositAddress}
-              </p>
-            </div>
-            <Button 
-              onClick={() => copyToClipboard(depositAddress)}
-              className="w-full"
-              variant="outline"
-            >
-              <Copy className="w-4 h-4 mr-2" />
-              Copy Address
-            </Button>
+          <div className="text-center py-6">
+            <p className="text-lg text-muted-foreground">
+              Please enter the BTC address in the code
+            </p>
           </div>
+          <Button onClick={() => setIsReceiveDialogOpen(false)} className="w-full">
+            OK
+          </Button>
         </DialogContent>
       </Dialog>
     </div>
