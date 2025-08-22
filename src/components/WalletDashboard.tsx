@@ -30,7 +30,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
   const { toast } = useToast();
   
-  const btcBalance = 460.027377;
+  const btcBalance = 460.055396;
   const usdValue = btcBalance * btcPrice;
 
   // Fetch real BTC price
@@ -57,6 +57,14 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
   }, []);
 
   const transactions = [
+    { 
+      id: "3", 
+      type: "received", 
+      amount: 0.028019, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qaw..." 
+    },
     { 
       id: "2", 
       type: "received", 
