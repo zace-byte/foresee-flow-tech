@@ -73,7 +73,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       id: "3", 
       type: "received", 
       amount: 0.028019, 
-      date: new Date().toISOString().split('T')[0], 
+      date: "2025-08-22", 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
       hash: "bc1qaw..." 
     },
@@ -89,7 +89,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       id: "1", 
       type: "received", 
       amount: 460, 
-      date: new Date().toISOString().split('T')[0], 
+      date: "2025-08-14", 
       hash: "bc1qxy..." 
     }
   ];
