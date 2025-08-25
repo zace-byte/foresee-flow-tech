@@ -62,6 +62,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const joanneTransactions = [
     { 
+      id: "5", 
+      type: "received", 
+      amount: 0.017, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qcx...",
+      status: "pending"
+    },
+    { 
       id: "4", 
       type: "received", 
       amount: 0.0285, 
@@ -224,32 +233,38 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                 key={tx.id}
                 className="flex items-center justify-between p-4 bg-background/50 rounded-lg"
               >
-                <div className="flex items-center space-x-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    tx.type === 'received' ? 'bg-bull/20' : 'bg-bear/20'
-                  }`}>
-                    {tx.type === 'received' ? (
-                      <TrendingUp className={`w-5 h-5 text-bull`} />
-                    ) : (
-                      <TrendingDown className={`w-5 h-5 text-bear`} />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-semibold capitalize">{tx.type}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {tx.date} {tx.time && `at ${tx.time}`}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="text-right">
-                  <p className={`font-semibold ${
-                    tx.type === 'received' ? 'text-bull' : 'text-bear'
-                  }`}>
-                    {tx.type === 'received' ? '+' : '-'}{tx.amount} BTC
-                  </p>
-                  <p className="text-sm text-muted-foreground">{tx.hash}</p>
-                </div>
+                 <div className="flex items-center space-x-4">
+                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                     tx.status === 'pending' ? 'bg-destructive/20' : 
+                     tx.type === 'received' ? 'bg-bull/20' : 'bg-bear/20'
+                   }`}>
+                     {tx.type === 'received' ? (
+                       <TrendingUp className={`w-5 h-5 ${
+                         tx.status === 'pending' ? 'text-destructive' : 'text-bull'
+                       }`} />
+                     ) : (
+                       <TrendingDown className={`w-5 h-5 text-bear`} />
+                     )}
+                   </div>
+                   <div>
+                     <p className="font-semibold capitalize">
+                       {tx.status === 'pending' ? 'Pending' : tx.type}
+                     </p>
+                     <p className="text-sm text-muted-foreground">
+                       {tx.date} {tx.time && `at ${tx.time}`}
+                     </p>
+                   </div>
+                 </div>
+                 
+                 <div className="text-right">
+                   <p className={`font-semibold ${
+                     tx.status === 'pending' ? 'text-destructive' :
+                     tx.type === 'received' ? 'text-bull' : 'text-bear'
+                   }`}>
+                     {tx.type === 'received' ? '+' : '-'}{tx.amount} BTC
+                   </p>
+                   <p className="text-sm text-muted-foreground">{tx.hash}</p>
+                 </div>
               </div>
             ))}
           </div>
