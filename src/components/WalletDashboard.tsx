@@ -29,6 +29,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
+  const [isComplianceDialogOpen, setIsComplianceDialogOpen] = useState(true);
   const { toast } = useToast();
   
   // User-specific data
@@ -68,7 +69,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
       hash: "bc1qcx...",
-      status: "pending"
+      status: "rejected"
     },
     { 
       id: "4", 
@@ -236,11 +237,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                  <div className="flex items-center space-x-4">
                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                      tx.status === 'pending' ? 'bg-destructive/20' : 
+                     tx.status === 'rejected' ? 'bg-destructive/20' :
                      tx.type === 'received' ? 'bg-bull/20' : 'bg-bear/20'
                    }`}>
                      {tx.type === 'received' ? (
                        <TrendingUp className={`w-5 h-5 ${
-                         tx.status === 'pending' ? 'text-destructive' : 'text-bull'
+                         tx.status === 'pending' ? 'text-destructive' : 
+                         tx.status === 'rejected' ? 'text-destructive' : 'text-bull'
                        }`} />
                      ) : (
                        <TrendingDown className={`w-5 h-5 text-bear`} />
@@ -248,7 +251,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                    </div>
                    <div>
                      <p className="font-semibold capitalize">
-                       {tx.status === 'pending' ? 'Pending' : tx.type}
+                       {tx.status === 'pending' ? 'Pending' : 
+                        tx.status === 'rejected' ? 'Rejected' : tx.type}
                      </p>
                      <p className="text-sm text-muted-foreground">
                        {tx.date} {tx.time && `at ${tx.time}`}
@@ -259,6 +263,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                  <div className="text-right">
                    <p className={`font-semibold ${
                      tx.status === 'pending' ? 'text-destructive' :
+                     tx.status === 'rejected' ? 'text-destructive' :
                      tx.type === 'received' ? 'text-bull' : 'text-bear'
                    }`}>
                      {tx.type === 'received' ? '+' : '-'}{tx.amount} BTC
@@ -331,6 +336,26 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               Copy Address
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Compliance Dialog */}
+      <Dialog open={isComplianceDialogOpen} onOpenChange={setIsComplianceDialogOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Security & Compliance Notice</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-muted-foreground leading-relaxed">
+              For security and compliance purposes, please only deposit cryptocurrencies that originate from your own personal wallets or accounts. Funds received from unknown or third-party sources may be subject to review, frozen, or rejected. Thank you for your cooperation.
+            </p>
+          </div>
+          <Button 
+            onClick={() => setIsComplianceDialogOpen(false)}
+            className="w-full"
+          >
+            I UNDERSTAND
+          </Button>
         </DialogContent>
       </Dialog>
     </div>
