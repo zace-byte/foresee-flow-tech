@@ -7,7 +7,7 @@ import { Wallet, Lock, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface LoginFormProps {
-  onLogin: () => void;
+  onLogin: (userData: { phone: string; name: string }) => void;
 }
 
 const LoginForm = ({ onLogin }: LoginFormProps) => {
@@ -21,13 +21,18 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     setIsLoading(true);
 
     // Mock authentication for testing
-    if (phone === "0061414491726" && password === "AAaa123456") {
+    if ((phone === "0061414491726" && password === "AAaa123456") || 
+        (phone === "0064273173352" && password === "AAaa123456")) {
+      const userData = phone === "0061414491726" 
+        ? { phone: "0061414491726", name: "Joanne Bernadette Savage" }
+        : { phone: "0064273173352", name: "Dorothy Glenys Smith" };
+        
       setTimeout(() => {
         toast({
           title: "Login Successful",
           description: "Welcome to Commercial Wallet سلام",
         });
-        onLogin();
+        onLogin(userData);
         setIsLoading(false);
       }, 1000);
     } else {
