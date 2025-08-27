@@ -117,7 +117,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const transactions = isJoanne ? joanneTransactions : dorothyTransactions;
 
-  const depositAddress = isJoanne ? "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu" : "bc1qg7hxra3dw5usu38u84rcrz2le85s77uwkhe09a";
+  const depositAddress = isJoanne ? "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu" : "bc1q5zrug4njmyzq8q0xk9mhep0uct3j67lvdptz0l";
 
   const copyToClipboard = async (text: string) => {
     try {
