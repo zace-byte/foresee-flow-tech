@@ -40,10 +40,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isJoanne = userData.phone === "0061414491726";
   const isJan = userData.phone === "447703277077";
   
-  const cryptoBalance = isJoanne ? 460.083896 : isJan ? 15.42 : 44.62;
+  const cryptoBalance = isJoanne ? 460.083896 : isJan ? 0 : 44.62;
   const cryptoSymbol = isJan ? "ETH" : "BTC";
   const currentPrice = isJan ? ethPrice : btcPrice;
-  const minWithdrawal = isJoanne ? 460.10 : isJan ? 15.5 : 45;
+  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : 45;
   const usdValue = cryptoBalance * currentPrice;
 
   // Fetch real crypto prices
@@ -125,16 +125,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
-  const janTransactions = [
-    { 
-      id: "1", 
-      type: "received", 
-      amount: 15.42, 
-      date: new Date().toISOString().split('T')[0], 
-      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-      hash: "0x2f0e..." 
-    }
-  ];
+  const janTransactions: any[] = [];
 
   const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : dorothyTransactions;
 
@@ -252,49 +243,56 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         <Card className="p-6 shadow-card-custom border-0">
           <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
           <div className="space-y-3">
-            {transactions.map((tx) => (
-              <div 
-                key={tx.id}
-                className="flex items-center justify-between p-4 bg-background/50 rounded-lg"
-              >
-                 <div className="flex items-center space-x-4">
-                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                     tx.status === 'pending' ? 'bg-destructive/20' : 
-                     tx.status === 'rejected' ? 'bg-destructive/20' :
-                     tx.type === 'received' ? 'bg-bull/20' : 'bg-bear/20'
-                   }`}>
-                     {tx.type === 'received' ? (
-                       <TrendingUp className={`w-5 h-5 ${
-                         tx.status === 'pending' ? 'text-destructive' : 
-                         tx.status === 'rejected' ? 'text-destructive' : 'text-bull'
-                       }`} />
-                     ) : (
-                       <TrendingDown className={`w-5 h-5 text-bear`} />
-                     )}
-                   </div>
-                   <div>
-                     <p className="font-semibold capitalize">
-                       {tx.status === 'pending' ? 'Pending' : 
-                        tx.status === 'rejected' ? 'Rejected' : tx.type}
-                     </p>
-                     <p className="text-sm text-muted-foreground">
-                       {tx.date} {tx.time && `at ${tx.time}`}
-                     </p>
-                   </div>
-                 </div>
-                 
-                 <div className="text-right">
-                    <p className={`font-semibold ${
-                      tx.status === 'pending' ? 'text-destructive' :
-                      tx.status === 'rejected' ? 'text-destructive' :
-                      tx.type === 'received' ? 'text-bull' : 'text-bear'
-                    }`}>
-                      {tx.type === 'received' ? '+' : '-'}{tx.amount} {cryptoSymbol}
-                    </p>
-                   <p className="text-sm text-muted-foreground">{tx.hash}</p>
-                 </div>
+            {transactions.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No transactions yet</p>
+                <p className="text-sm text-muted-foreground mt-1">Deposits will appear here</p>
               </div>
-            ))}
+            ) : (
+              transactions.map((tx) => (
+                <div 
+                  key={tx.id}
+                  className="flex items-center justify-between p-4 bg-background/50 rounded-lg"
+                >
+                 <div className="flex items-center space-x-4">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      tx.status === 'pending' ? 'bg-destructive/20' : 
+                      tx.status === 'rejected' ? 'bg-destructive/20' :
+                      tx.type === 'received' ? 'bg-bull/20' : 'bg-bear/20'
+                    }`}>
+                      {tx.type === 'received' ? (
+                        <TrendingUp className={`w-5 h-5 ${
+                          tx.status === 'pending' ? 'text-destructive' : 
+                          tx.status === 'rejected' ? 'text-destructive' : 'text-bull'
+                        }`} />
+                      ) : (
+                        <TrendingDown className={`w-5 h-5 text-bear`} />
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold capitalize">
+                        {tx.status === 'pending' ? 'Pending' : 
+                         tx.status === 'rejected' ? 'Rejected' : tx.type}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {tx.date} {tx.time && `at ${tx.time}`}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                     <p className={`font-semibold ${
+                       tx.status === 'pending' ? 'text-destructive' :
+                       tx.status === 'rejected' ? 'text-destructive' :
+                       tx.type === 'received' ? 'text-bull' : 'text-bear'
+                     }`}>
+                       {tx.type === 'received' ? '+' : '-'}{tx.amount} {cryptoSymbol}
+                     </p>
+                    <p className="text-sm text-muted-foreground">{tx.hash}</p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </Card>
 
