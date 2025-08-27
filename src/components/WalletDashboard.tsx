@@ -3,11 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { Lock } from "lucide-react";
 import { 
   Wallet, 
   TrendingUp, 
@@ -18,8 +15,7 @@ import {
   Eye,
   EyeOff,
   LogOut,
-  Copy,
-  Settings
+  Copy
 } from "lucide-react";
 
 interface WalletDashboardProps {
@@ -36,12 +32,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
   const [isComplianceDialogOpen, setIsComplianceDialogOpen] = useState(true);
-  const [isChangePasswordDialogOpen, setIsChangePasswordDialogOpen] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const { toast } = useToast();
   
   // User-specific data
@@ -158,50 +150,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   };
 
-  const handlePasswordChange = () => {
-    // Mock password validation
-    const expectedPassword = "AAaa123456"; // Current password for all users
-    
-    if (currentPassword !== expectedPassword) {
-      toast({
-        title: "Error",
-        description: "Current password is incorrect",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      toast({
-        title: "Error", 
-        description: "New passwords do not match",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (newPassword.length < 8) {
-      toast({
-        title: "Error",
-        description: "New password must be at least 8 characters long",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // In a real app, this would make an API call to update the password
-    toast({
-      title: "Password Changed",
-      description: "Your password has been updated successfully",
-    });
-
-    // Reset form
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setIsChangePasswordDialogOpen(false);
-  };
-
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -217,25 +165,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               <p className="text-sm text-muted-foreground">{userData.name}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  <Settings className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setIsChangePasswordDialogOpen(true)}>
-                  <Lock className="w-4 h-4 mr-2" />
-                  Change Password
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={onLogout}>
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <Button variant="ghost" onClick={onLogout}>
+            <LogOut className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
 
         {/* Balance Card */}
@@ -494,62 +427,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           >
             I UNDERSTAND
           </Button>
-        </DialogContent>
-      </Dialog>
-
-      {/* Change Password Dialog */}
-      <Dialog open={isChangePasswordDialogOpen} onOpenChange={setIsChangePasswordDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Change Password</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="current-password">Current Password</Label>
-              <Input
-                id="current-password"
-                type="password"
-                placeholder="Enter current password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="new-password">New Password</Label>
-              <Input
-                id="new-password"
-                type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm New Password</Label>
-              <Input
-                id="confirm-password"
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                onClick={() => setIsChangePasswordDialogOpen(false)}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handlePasswordChange}
-                className="flex-1"
-              >
-                Change Password
-              </Button>
-            </div>
-          </div>
         </DialogContent>
       </Dialog>
     </div>
