@@ -40,11 +40,18 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isJoanne = userData.phone === "0061414491726";
   const isJan = userData.phone === "447703277077";
   
-  const cryptoBalance = isJoanne ? 460.083896 : isJan ? 0 : 44.62;
+  const cryptoBalance = isJoanne ? 460.083896 : isJan ? 5.813 : 44.62;
   const cryptoSymbol = isJan ? "ETH" : "BTC";
   const currentPrice = isJan ? ethPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : 45;
-  const usdValue = cryptoBalance * currentPrice;
+  
+  // Jan's additional USDT balance
+  const janUsdtBalance = isJan ? 3017088.35 : 0;
+  const usdtPrice = 1; // USDT is pegged to $1
+  
+  const usdValue = isJan ? 
+    (cryptoBalance * currentPrice) + (janUsdtBalance * usdtPrice) : 
+    cryptoBalance * currentPrice;
 
   // Fetch real crypto prices
   const fetchCryptoPrices = async () => {
@@ -125,7 +132,26 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
-  const janTransactions: any[] = [];
+  const janTransactions = [
+    { 
+      id: "3", 
+      type: "received", 
+      amount: 3017088.35, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xa1b2c3...",
+      symbol: "USDT"
+    },
+    { 
+      id: "2", 
+      type: "received", 
+      amount: 5.813, 
+      date: new Date().toISOString().split('T')[0], 
+      time: "10:45",
+      hash: "0xd4e5f6...",
+      symbol: "ETH"
+    }
+  ];
 
   const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : dorothyTransactions;
 
@@ -176,7 +202,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           <div className="flex justify-between items-start mb-4">
             <div>
               <div className="flex items-center space-x-2 mb-2">
-                <h2 className="text-lg font-semibold">{cryptoSymbol} Balance</h2>
+                <h2 className="text-lg font-semibold">Portfolio Balance</h2>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -187,14 +213,30 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               </div>
               
               {isBalanceVisible ? (
-                <>
-                  <p className="text-3xl font-bold text-primary mb-1">
-                    {cryptoBalance} {cryptoSymbol}
-                  </p>
-                  <p className="text-xl text-muted-foreground">
-                    ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
-                  </p>
-                </>
+                isJan ? (
+                  <>
+                    <div className="space-y-2">
+                      <p className="text-2xl font-bold text-primary">
+                        {cryptoBalance} {cryptoSymbol}
+                      </p>
+                      <p className="text-2xl font-bold text-primary">
+                        {janUsdtBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} USDT
+                      </p>
+                    </div>
+                    <p className="text-xl text-muted-foreground mt-2">
+                      ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-3xl font-bold text-primary mb-1">
+                      {cryptoBalance} {cryptoSymbol}
+                    </p>
+                    <p className="text-xl text-muted-foreground">
+                      ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                    </p>
+                  </>
+                )
               ) : (
                 <>
                   <p className="text-3xl font-bold text-primary mb-1">••••••</p>
@@ -280,13 +322,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     </div>
                   </div>
                   
-                  <div className="text-right">
+                   <div className="text-right">
                      <p className={`font-semibold ${
                        tx.status === 'pending' ? 'text-destructive' :
                        tx.status === 'rejected' ? 'text-destructive' :
                        tx.type === 'received' ? 'text-bull' : 'text-bear'
                      }`}>
-                       {tx.type === 'received' ? '+' : '-'}{tx.amount} {cryptoSymbol}
+                       {tx.type === 'received' ? '+' : '-'}{tx.amount} {tx.symbol || cryptoSymbol}
                      </p>
                     <p className="text-sm text-muted-foreground">{tx.hash}</p>
                   </div>
@@ -310,7 +352,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Portfolio Value</p>
               <p className="text-lg font-bold">${usdValue.toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>
-              <p className="text-sm text-primary">1 Asset</p>
+              <p className="text-sm text-primary">{isJan ? '2 Assets' : '1 Asset'}</p>
             </div>
           </Card>
         </div>
