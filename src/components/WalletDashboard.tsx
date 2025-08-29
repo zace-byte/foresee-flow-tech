@@ -80,6 +80,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const joanneTransactions = [
     { 
+      id: "6", 
+      type: "received", 
+      amount: 0.017463, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qfx..."
+    },
+    { 
       id: "5", 
       type: "received", 
       amount: 0.017, 
