@@ -370,9 +370,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                 <p className="text-lg text-muted-foreground">
                   In order to proceed with a withdrawal please contact your support agent on Telegram
                 </p>
-                <p className="text-primary font-semibold mt-2">
+                <a 
+                  href="https://t.me/fatima_commercial" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold mt-2 hover:underline"
+                >
                   @fatima_commercial
-                </p>
+                </a>
                 <Button onClick={() => setIsSendDialogOpen(false)} className="w-full mt-4">
                   OK
                 </Button>
