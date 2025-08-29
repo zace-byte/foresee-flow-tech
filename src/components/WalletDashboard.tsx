@@ -366,49 +366,17 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           </DialogHeader>
           <div className="text-center py-6">
             {isJan ? (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Amount ({cryptoSymbol})</label>
-                  <Input
-                    type="number"
-                    placeholder={`Enter amount in ${cryptoSymbol}`}
-                    value={sendAmount}
-                    onChange={(e) => setSendAmount(e.target.value)}
-                    step="0.000001"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Recipient Address</label>
-                  <Input
-                    type="text"
-                    placeholder="Enter Ethereum address"
-                    value={sendAddress}
-                    onChange={(e) => setSendAddress(e.target.value)}
-                  />
-                </div>
-                <Button 
-                  onClick={() => {
-                    if (sendAmount && sendAddress) {
-                      toast({
-                        title: "Transaction Submitted",
-                        description: `Sending ${sendAmount} ${cryptoSymbol} to ${sendAddress.slice(0, 10)}...`,
-                      });
-                      setSendAmount("");
-                      setSendAddress("");
-                      setIsSendDialogOpen(false);
-                    } else {
-                      toast({
-                        title: "Error",
-                        description: "Please fill in both amount and address",
-                        variant: "destructive",
-                      });
-                    }
-                  }}
-                  className="w-full"
-                >
-                  Confirm Transaction
+              <>
+                <p className="text-lg text-muted-foreground">
+                  In order to proceed with a withdrawal please contact your support agent on Telegram
+                </p>
+                <p className="text-primary font-semibold mt-2">
+                  @fatima_commercial
+                </p>
+                <Button onClick={() => setIsSendDialogOpen(false)} className="w-full mt-4">
+                  OK
                 </Button>
-              </div>
+              </>
             ) : (
               <>
                 <p className="text-lg text-muted-foreground">
