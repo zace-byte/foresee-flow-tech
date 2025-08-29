@@ -40,7 +40,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isJoanne = userData.phone === "0061414491726";
   const isJan = userData.phone === "447703277077";
   
-  const cryptoBalance = isJoanne ? 460.083896 : isJan ? 5.813 : 44.62;
+  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : 44.62;
   const cryptoSymbol = isJan ? "ETH" : "BTC";
   const currentPrice = isJan ? ethPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : 45;
