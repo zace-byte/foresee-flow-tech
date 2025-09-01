@@ -204,9 +204,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const handleSendSubmit = () => {
     if (isJeremy) {
-      // For Jeremy, show insufficient Ethereum error
+      // For Jeremy, show insufficient Ethereum for gas fees error
       toast({
-        title: "Insufficient Ethereum",
+        title: "Insufficient ethereum for gas fees",
         description: "Please top up to proceed.",
         variant: "destructive",
       });
