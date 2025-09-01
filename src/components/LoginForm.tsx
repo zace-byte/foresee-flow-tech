@@ -24,14 +24,17 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     if ((phone === "0061414491726" && password === "AAaa123456") || 
         (phone === "0064273173352" && password === "AAaa123456") ||
         (phone === "447703277077" && password === "AAaa123456") ||
-        (phone === "00447817963523" && password === "AAaa123456")) {
+        (phone === "00447817963523" && password === "AAaa123456") ||
+        (phone === "00447949987710" && password === "AAaa123456")) {
       const userData = phone === "0061414491726" 
         ? { phone: "0061414491726", name: "Joanne Bernadette Savage" }
         : phone === "0064273173352" 
         ? { phone: "0064273173352", name: "Dorothy Glenys Smith" }
         : phone === "447703277077" 
         ? { phone: "447703277077", name: "Jan Kijowski" }
-        : { phone: "00447817963523", name: "Jeremy Goose" };
+        : phone === "00447817963523"
+        ? { phone: "00447817963523", name: "Jeremy Goose" }
+        : { phone: "00447949987710", name: "Ben Cranke" };
         
       setTimeout(() => {
         toast({

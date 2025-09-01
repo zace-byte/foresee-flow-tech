@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Wallet, 
@@ -35,17 +36,19 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isOfacDialogOpen, setIsOfacDialogOpen] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
+  const [selectedCrypto, setSelectedCrypto] = useState("BTC");
   const { toast } = useToast();
   
   // User-specific data
   const isJoanne = userData.phone === "0061414491726";
   const isJan = userData.phone === "447703277077";
   const isJeremy = userData.phone === "00447817963523";
+  const isBen = userData.phone === "00447949987710";
   
-  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : 44.62;
-  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : "BTC";
+  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0 : 44.62;
+  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "BTC" : "BTC";
   const currentPrice = (isJan || isJeremy) ? ethPrice : btcPrice;
-  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : 45;
+  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : 45;
   
   // USDT balances
   const janUsdtBalance = isJan ? 3017088.35 : 0;
@@ -178,11 +181,27 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : dorothyTransactions;
+  const benTransactions: any[] = [];
+  
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : dorothyTransactions;
+
+  const getBenAddress = (crypto: string) => {
+    switch (crypto) {
+      case "BTC":
+        return "bc1qtz2krxmwf5kfdkj8pdcgkhlgr73ajyc5nx6f6w";
+      case "ETH":
+        return "0xA4c556c57DeB7207FCE8de9A1f5B0248bA5c0A15";
+      case "USDT":
+        return "0xA4c556c57DeB7207FCE8de9A1f5B0248bA5c0A15";
+      default:
+        return "bc1qtz2krxmwf5kfdkj8pdcgkhlgr73ajyc5nx6f6w";
+    }
+  };
 
   const depositAddress = isJoanne ? "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu" : 
                         isJan ? "0x38AF437251f80054Da8bF701624319c27c9868fC" : 
                         isJeremy ? "0x6a609F22fD1c0f44fb1DC004ACFA6FB901d3bBc8" :
+                        isBen ? getBenAddress(selectedCrypto) :
                         "bc1q5zrug4njmyzq8q0xk9mhep0uct3j67lvdptz0l";
 
   const copyToClipboard = async (text: string) => {
@@ -409,7 +428,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Portfolio Value</p>
               <p className="text-lg font-bold">${usdValue.toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>
-              <p className="text-sm text-primary">{(isJan || isJeremy) ? '2 Assets' : '1 Asset'}</p>
+              <p className="text-sm text-primary">{(isJan || isJeremy) ? '2 Assets' : isBen ? '3 Assets' : '1 Asset'}</p>
             </div>
           </Card>
         </div>
@@ -523,19 +542,53 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             <DialogTitle>Your Deposit Address</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm font-mono break-all text-center">
-                {depositAddress}
-              </p>
-            </div>
-            <Button 
-              onClick={() => copyToClipboard(depositAddress)}
-              className="w-full"
-              variant="outline"
-            >
-              <Copy className="w-4 h-4 mr-2" />
-              Copy Address
-            </Button>
+            {isBen ? (
+              <>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Select Cryptocurrency</label>
+                  <Select value={selectedCrypto} onValueChange={setSelectedCrypto}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Choose cryptocurrency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="BTC">Bitcoin (BTC)</SelectItem>
+                      <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
+                      <SelectItem value="USDT">Tether (USDT)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="p-4 bg-muted rounded-lg">
+                  <p className="text-xs text-muted-foreground mb-2 text-center">{selectedCrypto} Address</p>
+                  <p className="text-sm font-mono break-all text-center">
+                    {getBenAddress(selectedCrypto)}
+                  </p>
+                </div>
+                <Button 
+                  onClick={() => copyToClipboard(getBenAddress(selectedCrypto))}
+                  className="w-full"
+                  variant="outline"
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy {selectedCrypto} Address
+                </Button>
+              </>
+            ) : (
+              <>
+                <div className="p-4 bg-muted rounded-lg">
+                  <p className="text-sm font-mono break-all text-center">
+                    {depositAddress}
+                  </p>
+                </div>
+                <Button 
+                  onClick={() => copyToClipboard(depositAddress)}
+                  className="w-full"
+                  variant="outline"
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy Address
+                </Button>
+              </>
+            )}
           </div>
         </DialogContent>
       </Dialog>
