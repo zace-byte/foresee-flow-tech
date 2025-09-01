@@ -23,12 +23,15 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     // Mock authentication for testing
     if ((phone === "0061414491726" && password === "AAaa123456") || 
         (phone === "0064273173352" && password === "AAaa123456") ||
-        (phone === "447703277077" && password === "AAaa123456")) {
+        (phone === "447703277077" && password === "AAaa123456") ||
+        (phone === "00447817963523" && password === "AAaa123456")) {
       const userData = phone === "0061414491726" 
         ? { phone: "0061414491726", name: "Joanne Bernadette Savage" }
         : phone === "0064273173352" 
         ? { phone: "0064273173352", name: "Dorothy Glenys Smith" }
-        : { phone: "447703277077", name: "Jan Kijowski" };
+        : phone === "447703277077" 
+        ? { phone: "447703277077", name: "Jan Kijowski" }
+        : { phone: "00447817963523", name: "Jeremy Goose" };
         
       setTimeout(() => {
         toast({
