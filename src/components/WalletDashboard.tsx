@@ -45,9 +45,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isJeremy = userData.phone === "00447817963523";
   const isBen = userData.phone === "00447949987710";
   
-  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0 : 44.62;
-  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "BTC" : "BTC";
-  const currentPrice = (isJan || isJeremy) ? ethPrice : btcPrice;
+  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : 44.62;
+  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : "BTC";
+  const currentPrice = (isJan || isJeremy || isBen) ? ethPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : 45;
   
   // USDT balances
