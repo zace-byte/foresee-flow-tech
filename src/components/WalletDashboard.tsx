@@ -189,8 +189,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       id: "1", 
       type: "received", 
       amount: 327000, 
-      date: new Date().toISOString().split('T')[0], 
-      time: new Date(Date.now() + (4 * 60 * 60 * 1000)).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0], 
+      time: "13:23",
       hash: "0xB1c2d3...",
       symbol: "USDT"
     },
