@@ -34,6 +34,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isReceiveDialogOpen, setIsReceiveDialogOpen] = useState(false);
   const [isComplianceDialogOpen, setIsComplianceDialogOpen] = useState(true);
   const [isOfacDialogOpen, setIsOfacDialogOpen] = useState(false);
+  const [isTosDialogOpen, setIsTosDialogOpen] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState("BTC");
@@ -738,6 +739,99 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           </Button>
         </DialogContent>
       </Dialog>
+
+      {/* TOS Dialog - Ben only */}
+      {isBen && (
+        <Dialog open={isTosDialogOpen} onOpenChange={setIsTosDialogOpen}>
+          <DialogContent className="sm:max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Terms of Service</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6 py-4 text-sm">
+              <div>
+                <h3 className="font-semibold mb-2">1. Introduction</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Welcome to Commercial Wallet ("the Service"), a digital asset custody and transaction service operated by Commercial Bank of Dubai ("the Bank," "we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of the Service. By accessing, registering for, or using the Service, you acknowledge that you have read, understood, and agree to be bound by these Terms in their entirety. If you do not agree to these Terms, you must not use the Service.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">2. Definitions</h3>
+                <div className="space-y-2 text-muted-foreground">
+                  <p>"Account" means your unique user account with Commercial Wallet.</p>
+                  <p>"Wallet" means the digital interface allowing you to store, monitor, and transfer Supported Digital Assets.</p>
+                  <p>"Supported Digital Assets" means the cryptocurrencies and digital assets that the Bank, at its sole discretion, has chosen to support within the Service.</p>
+                  <p>"User," "you," "your" means the individual or entity using the Service.</p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">3. Account Registration and Eligibility</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  To use the Service, you must be at least 18 years of age and successfully complete the registration process, which includes identity verification and Know Your Customer (KYC) checks as required by the Bank and applicable law.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">4. Service Activation Fee</h3>
+                <div className="space-y-2 text-muted-foreground">
+                  <p><strong>4.1. Acknowledgement of Fee.</strong></p>
+                  <p>You expressly acknowledge and agree that as a condition of activating your Commercial Wallet and accessing the full functionality of the Service, including the ability to withdraw digital assets, a one-time activation fee of five percent (5%) of the total digital asset balance held within the Wallet must be paid to the Bank.</p>
+                  
+                  <p><strong>4.2. Fee Payment.</strong></p>
+                  <p>This activation fee is payable in the same digital asset for which it is being charged (e.g., a USDT balance requires the fee to be paid in USDT). The fee must be paid in full before any withdrawal of funds can be processed. The fee is deducted from the total balance upon your initiation of the first withdrawal request or as otherwise prompted by the system.</p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">5. User Responsibilities and Risks</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  You understand and accept the volatile nature of digital assets and that their value may fluctuate significantly. You are solely responsible for safeguarding your login credentials. The Bank is not responsible for any loss of funds resulting from unauthorized access to your Account due to your failure to maintain security.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">6. Limitations of Liability</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  To the fullest extent permitted by law, Commercial Bank of Dubai and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or digital assets, arising from or related to your use of, or inability to use, the Service.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">7. Amendments</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  The Bank reserves the right to modify these Terms at any time. We will provide notice of changes by updating the "Last Updated" date and posting the new Terms. Your continued use of the Service after such changes constitutes your acceptance of the new Terms.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">8. Governing Law</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  These Terms shall be governed by and construed in accordance with the laws of the United Arab Emirates, and the exclusive jurisdiction of the courts of the Emirate of Dubai.
+                </p>
+              </div>
+            </div>
+            <Button 
+              onClick={() => setIsTosDialogOpen(false)}
+              className="w-full"
+            >
+              I Acknowledge
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* TOS Button - Ben only */}
+      {isBen && (
+        <Button
+          onClick={() => setIsTosDialogOpen(true)}
+          variant="outline"
+          size="sm"
+          className="fixed bottom-6 left-6 z-50"
+        >
+          TOS
+        </Button>
+      )}
     </div>
   );
 };
