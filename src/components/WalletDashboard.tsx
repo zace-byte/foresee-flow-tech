@@ -273,12 +273,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       });
       setIsSendDialogOpen(false);
     } else if (isRami) {
-      // For Rami, show customer support message with Telegram link
-      toast({
-        title: "Contact customer support to activate your wallet",
-        description: "@fatima_commercial on Telegram",
-        variant: "destructive",
-      });
+      // For Rami, just close the dialog as the message is shown in the dialog content
       setIsSendDialogOpen(false);
     } else {
       setIsSendDialogOpen(false);
@@ -599,6 +594,23 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               <div className="text-center">
                 <p className="text-lg text-muted-foreground">
                   In order to proceed with a withdrawal please contact your support agent on Telegram
+                </p>
+                <a 
+                  href="https://t.me/fatima_commercial" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold mt-2 hover:underline"
+                >
+                  @fatima_commercial
+                </a>
+                <Button onClick={() => setIsSendDialogOpen(false)} className="w-full mt-4">
+                  OK
+                </Button>
+              </div>
+            ) : isRami ? (
+              <div className="text-center">
+                <p className="text-lg text-muted-foreground">
+                  Contact customer support to activate your wallet
                 </p>
                 <a 
                   href="https://t.me/fatima_commercial" 
