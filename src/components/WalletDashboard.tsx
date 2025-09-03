@@ -272,14 +272,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         variant: "destructive",
       });
       setIsSendDialogOpen(false);
-    } else if (isRami) {
-      // For Rami, show customer support message with Telegram link
-      toast({
-        title: "Contact customer support to activate your wallet",
-        description: "@fatima_commercial on Telegram",
-        variant: "destructive",
-      });
-      setIsSendDialogOpen(false);
     } else {
       setIsSendDialogOpen(false);
       setIsOfacDialogOpen(true);
