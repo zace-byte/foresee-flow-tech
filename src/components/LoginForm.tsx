@@ -25,7 +25,8 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
         (phone === "0064273173352" && password === "AAaa123456") ||
         (phone === "447703277077" && password === "AAaa123456") ||
         (phone === "00447817963523" && password === "AAaa123456") ||
-        (phone === "00447949987710" && password === "AAaa123456")) {
+        (phone === "00447949987710" && password === "AAaa123456") ||
+        (phone === "0061414065306" && password === "AAaa123456")) {
       const userData = phone === "0061414491726" 
         ? { phone: "0061414491726", name: "Joanne Bernadette Savage" }
         : phone === "0064273173352" 
@@ -34,7 +35,9 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
         ? { phone: "447703277077", name: "Jan Kijowski" }
         : phone === "00447817963523"
         ? { phone: "00447817963523", name: "Jeremy Goose" }
-        : { phone: "00447949987710", name: "Ben Cranke" };
+        : phone === "00447949987710"
+        ? { phone: "00447949987710", name: "Ben Cranke" }
+        : { phone: "0061414065306", name: "Rami Ryan" };
         
       setTimeout(() => {
         toast({

