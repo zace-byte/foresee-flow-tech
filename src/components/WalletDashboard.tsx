@@ -53,7 +53,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : 45;
   
   // USDT balances
-  const janUsdtBalance = isJan ? 3017088.35 : 0;
+  const janUsdtBalance = isJan ? 3026770.35 : 0;
   const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
   const benUsdtBalance = isBen ? 327000 : 0;
   const usdtPrice = 1; // USDT is pegged to $1
