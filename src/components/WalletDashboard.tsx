@@ -152,6 +152,17 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
+  const ramiTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 1.2, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qrx..." 
+    }
+  ];
+
   const janTransactions = [
     { 
       id: "3", 
@@ -206,7 +217,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
