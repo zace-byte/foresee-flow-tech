@@ -655,16 +655,51 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   OK
                 </Button>
               </div>
-            ) : (
+            ) : isLinda ? (
               <div className="text-center">
                 <p className="text-lg text-muted-foreground">
-                  Minimum withdrawal is <span className="font-bold text-primary">{minWithdrawal} {cryptoSymbol}</span>
+                  Please contact @fatima_commercial to process a service fee for the wallet
                 </p>
-                <p className="text-muted-foreground mt-2">
-                  Please top up to be able to withdraw.
-                </p>
+                <a 
+                  href="https://t.me/fatima_commercial" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold mt-2 hover:underline"
+                >
+                  @fatima_commercial
+                </a>
                 <Button onClick={() => setIsSendDialogOpen(false)} className="w-full mt-4">
                   OK
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Wallet Address</label>
+                  <Input
+                    value={sendAddress}
+                    onChange={(e) => setSendAddress(e.target.value)}
+                    placeholder="Enter destination wallet address"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Amount ({cryptoSymbol})</label>
+                  <Input
+                    value={sendAmount}
+                    onChange={(e) => setSendAmount(e.target.value)}
+                    placeholder="Enter amount to send"
+                    type="number"
+                    step="0.00000001"
+                    className="mt-1"
+                  />
+                </div>
+                <Button 
+                  onClick={handleSendSubmit}
+                  className="w-full"
+                  disabled={!sendAddress || !sendAmount}
+                >
+                  Send
                 </Button>
               </div>
             )}
