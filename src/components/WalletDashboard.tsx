@@ -53,7 +53,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : 45;
   
   // USDT balances
-  const janUsdtBalance = isJan ? 3026770.35 : 0;
+  const janUsdtBalance = isJan ? 3027153.35 : 0;
   const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
   const benUsdtBalance = isBen ? 327000 : 0;
   const usdtPrice = 1; // USDT is pegged to $1
@@ -166,9 +166,18 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const janTransactions = [
     { 
+      id: "4", 
+      type: "received", 
+      amount: 383, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date(Date.now() + (15 * 60 * 1000)).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xa8b9c4...",
+      symbol: "USDT"
+    },
+    { 
       id: "3", 
       type: "received", 
-      amount: 3017088.35, 
+      amount: 9682, 
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
       hash: "0xa1b2c3...",
