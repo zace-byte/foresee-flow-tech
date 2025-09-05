@@ -167,6 +167,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const janTransactions = [
     { 
+      id: "5", 
+      type: "received", 
+      amount: 20271, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xa9c8d7...",
+      symbol: "USDT"
+    },
+    { 
       id: "4", 
       type: "received", 
       amount: 383, 
