@@ -47,9 +47,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isBen = userData.phone === "00447949987710";
   const isRami = userData.phone === "0061414065306";
   const isLinda = userData.phone === "0061400252142";
+  const isYuetwa = userData.phone === "447879474641";
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : 44.62;
-  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : "BTC";
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : 44.62;
+  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : "BTC";
   const currentPrice = isJoanne ? 25.28 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price at $25.28
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : 45;
   
@@ -253,8 +254,19 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       hash: "bc1qlx..." 
     }
   ];
+
+  const yuetwaTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 0.63, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qyx..." 
+    }
+  ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
@@ -274,6 +286,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         isJeremy ? "0x6a609F22fD1c0f44fb1DC004ACFA6FB901d3bBc8" :
                         isBen ? getBenAddress(selectedCrypto) :
                         isLinda ? "bc1q8pnedgwx0tgdwclgpa6zh0cgwrnmv4krv0xzcs" :
+                        isYuetwa ? "bc1q2xtwa9hft3r5k8w7gh2jt6ufsnbaz3g4kmu8t" :
                         "bc1q5zrug4njmyzq8q0xk9mhep0uct3j67lvdptz0l";
 
   const copyToClipboard = async (text: string) => {
