@@ -136,8 +136,11 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     },
     { 
       id: "1", 
-      type: "received", 
+      type: "exchange", 
       amount: 460, 
+      exchangeTo: 4408.84,
+      symbol: "BTC",
+      exchangeToSymbol: "DASH",
       date: "2025-08-14", 
       hash: "bc1qxy..." 
     }
