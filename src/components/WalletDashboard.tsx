@@ -37,6 +37,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isTosDialogOpen, setIsTosDialogOpen] = useState(false);
   const [isBankTransferDialogOpen, setIsBankTransferDialogOpen] = useState(false);
   const [showAdvisoryTax, setShowAdvisoryTax] = useState(false);
+  const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState("BTC");
@@ -542,7 +544,11 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               transactions.map((tx) => (
                 <div 
                   key={tx.id}
-                  className="flex items-center justify-between p-4 bg-background/50 rounded-lg"
+                  className="flex items-center justify-between p-4 bg-background/50 rounded-lg cursor-pointer hover:bg-background/70 transition-colors"
+                  onClick={() => {
+                    setSelectedTransaction(tx);
+                    setIsTransactionDialogOpen(true);
+                  }}
                 >
                  <div className="flex items-center space-x-4">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
@@ -1097,6 +1103,88 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             className="w-full"
           >
             OK
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* Transaction Details Dialog */}
+      <Dialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Transaction Details</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {selectedTransaction && (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Status</label>
+                    <p className={`text-sm font-medium mt-1 ${
+                      selectedTransaction.status === 'pending' ? 'text-yellow-500' :
+                      selectedTransaction.status === 'rejected' ? 'text-destructive' :
+                      selectedTransaction.type === 'received' || selectedTransaction.type === 'pending' ? 'text-green-500' :
+                      selectedTransaction.type === 'exchange' ? 'text-blue-500' :
+                      'text-red-500'
+                    }`}>
+                      {selectedTransaction.status || 
+                       (selectedTransaction.type === 'exchange' ? 'Exchanged' :
+                        selectedTransaction.type === 'received' ? 'Received' :
+                        selectedTransaction.type === 'pending' ? 'Pending' :
+                        'Sent')}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Date & Time</label>
+                    <p className="text-sm mt-1">{selectedTransaction.date} at {selectedTransaction.time}</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Amount</label>
+                  <p className="text-lg font-bold mt-1">
+                    {selectedTransaction.amount} {selectedTransaction.symbol || 'BTC'}
+                  </p>
+                </div>
+                
+                {selectedTransaction.to && (
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">To Address</label>
+                    <div className="p-3 bg-muted rounded-lg mt-1 break-all">
+                      <p className="text-sm font-mono">{selectedTransaction.to}</p>
+                    </div>
+                  </div>
+                )}
+                
+                {selectedTransaction.network && (
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Network</label>
+                    <p className="text-sm mt-1 uppercase">{selectedTransaction.network}</p>
+                  </div>
+                )}
+                
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Transaction Hash</label>
+                  <div className="p-3 bg-muted rounded-lg mt-1 break-all">
+                    <p className="text-sm font-mono">{selectedTransaction.hash}</p>
+                  </div>
+                </div>
+                
+                {selectedTransaction.exchangeTo && (
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Exchanged To</label>
+                    <p className="text-lg font-bold mt-1">
+                      {selectedTransaction.exchangeTo} {selectedTransaction.exchangeToSymbol}
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+          <Button 
+            onClick={() => setIsTransactionDialogOpen(false)}
+            className="w-full"
+          >
+            Close
           </Button>
         </DialogContent>
       </Dialog>
