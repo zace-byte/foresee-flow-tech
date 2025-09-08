@@ -48,18 +48,21 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isRami = userData.phone === "0061414065306";
   const isLinda = userData.phone === "0061400252142";
   
-  const cryptoBalance = isJoanne ? 4408.84 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : 44.62;
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : "BTC";
   const currentPrice = isJoanne ? 45.50 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price fallback
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : 45;
   
-  // USDT balances
+  // USDT balances and Joanne's BTC balance
   const janUsdtBalance = isJan ? 3027153.35 : 0;
   const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
   const benUsdtBalance = isBen ? 327000 : 0;
+  const joanneBtcBalance = isJoanne ? 0.1 : 0;
   const usdtPrice = 1; // USDT is pegged to $1
   
-  const usdValue = isJan ? 
+  const usdValue = isJoanne ?
+    (cryptoBalance * currentPrice) + (joanneBtcBalance * btcPrice) :
+    isJan ? 
     (cryptoBalance * currentPrice) + (janUsdtBalance * usdtPrice) : 
     isJeremy ?
     (cryptoBalance * currentPrice) + (jeremyUsdtBalance * usdtPrice) :
@@ -138,7 +141,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       id: "1", 
       type: "exchange", 
       amount: 460, 
-      exchangeTo: 4408.84,
+      exchangeTo: 2022715.98,
       symbol: "BTC",
       exchangeToSymbol: "DASH",
       date: "2025-08-14", 
@@ -363,7 +366,21 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               </div>
               
               {isBalanceVisible ? (
-                isJan ? (
+                isJoanne ? (
+                  <>
+                    <div className="space-y-2">
+                      <p className="text-2xl font-bold text-primary">
+                        {cryptoBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} {cryptoSymbol}
+                      </p>
+                      <p className="text-2xl font-bold text-primary">
+                        {joanneBtcBalance} BTC
+                      </p>
+                    </div>
+                    <p className="text-xl text-muted-foreground mt-2">
+                      ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                    </p>
+                  </>
+                ) : isJan ? (
                   <>
                     <div className="space-y-2">
                       <p className="text-2xl font-bold text-primary">
