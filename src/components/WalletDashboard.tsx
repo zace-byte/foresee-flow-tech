@@ -50,7 +50,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   
   const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : "BTC";
-  const currentPrice = isJoanne ? 45.50 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price fallback
+  const currentPrice = isJoanne ? 25.28 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price at $25.28
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : 45;
   
   // USDT balances and Joanne's BTC balance
