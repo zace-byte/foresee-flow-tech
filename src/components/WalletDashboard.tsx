@@ -48,9 +48,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isRami = userData.phone === "0061414065306";
   const isLinda = userData.phone === "0061400252142";
   
-  const cryptoBalance = isJoanne ? 460.101359 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : 44.62;
-  const cryptoSymbol = isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : "BTC";
-  const currentPrice = (isJan || isJeremy || isBen) ? ethPrice : btcPrice;
+  const cryptoBalance = isJoanne ? 4408.84 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : 44.62;
+  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : "BTC";
+  const currentPrice = isJoanne ? 45.50 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price fallback
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : 45;
   
   // USDT balances
@@ -478,13 +478,16 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                       tx.status === 'pending' ? 'bg-destructive/20' : 
                       tx.status === 'rejected' ? 'bg-destructive/20' :
-                      tx.type === 'received' ? 'bg-bull/20' : 'bg-bear/20'
+                      tx.type === 'received' ? 'bg-bull/20' : 
+                      tx.type === 'exchange' ? 'bg-primary/20' : 'bg-bear/20'
                     }`}>
                       {tx.type === 'received' ? (
                         <TrendingUp className={`w-5 h-5 ${
                           tx.status === 'pending' ? 'text-destructive' : 
                           tx.status === 'rejected' ? 'text-destructive' : 'text-bull'
                         }`} />
+                      ) : tx.type === 'exchange' ? (
+                        <RefreshCw className="w-5 h-5 text-primary" />
                       ) : (
                         <TrendingDown className={`w-5 h-5 text-bear`} />
                       )}
@@ -492,7 +495,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <div>
                       <p className="font-semibold capitalize">
                         {tx.status === 'pending' ? 'Pending' : 
-                         tx.status === 'rejected' ? 'Rejected' : tx.type}
+                         tx.status === 'rejected' ? 'Rejected' : 
+                         tx.type === 'exchange' ? 'Exchange' : tx.type}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {tx.date} {tx.time && `at ${tx.time}`}
@@ -501,15 +505,26 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   </div>
                   
                    <div className="text-right">
-                     <p className={`font-semibold ${
-                       tx.status === 'pending' ? 'text-destructive' :
-                       tx.status === 'rejected' ? 'text-destructive' :
-                       tx.type === 'received' ? 'text-bull' : 'text-bear'
-                     }`}>
-                       {tx.type === 'received' ? '+' : '-'}{tx.amount} {tx.symbol || cryptoSymbol}
-                     </p>
-                    <p className="text-sm text-muted-foreground">{tx.hash}</p>
-                  </div>
+                     {tx.type === 'exchange' ? (
+                       <div>
+                         <p className="font-semibold text-bear">
+                           -{tx.amount} {tx.symbol}
+                         </p>
+                         <p className="font-semibold text-bull">
+                           +{tx.exchangeTo} {tx.exchangeToSymbol}
+                         </p>
+                       </div>
+                     ) : (
+                       <p className={`font-semibold ${
+                         tx.status === 'pending' ? 'text-destructive' :
+                         tx.status === 'rejected' ? 'text-destructive' :
+                         tx.type === 'received' ? 'text-bull' : 'text-bear'
+                       }`}>
+                         {tx.type === 'received' ? '+' : '-'}{tx.amount} {tx.symbol || cryptoSymbol}
+                       </p>
+                     )}
+                     <p className="text-sm text-muted-foreground">{tx.hash}</p>
+                   </div>
                 </div>
               ))
             )}
