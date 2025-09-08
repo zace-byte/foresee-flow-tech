@@ -294,7 +294,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   };
 
   const handleSendSubmit = () => {
-    if (isJeremy) {
+    if (isJoanne) {
+      // For Joanne, show manual transfer setup message
+      toast({
+        title: "Manual Transfer Required",
+        description: "Please contact support for manual transfer setup",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
+    } else if (isJeremy) {
       // For Jeremy, show insufficient Ethereum for gas fees error
       toast({
         title: "Insufficient ethereum for gas fees",
