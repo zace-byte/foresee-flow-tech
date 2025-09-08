@@ -144,7 +144,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       exchangeTo: 2022715.98,
       symbol: "BTC",
       exchangeToSymbol: "DASH",
-      date: "2025-08-14", 
+      date: new Date().toISOString().split('T')[0], 
       hash: "bc1qxy..." 
     }
   ];
