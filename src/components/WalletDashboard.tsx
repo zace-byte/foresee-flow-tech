@@ -104,6 +104,17 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const joanneTransactions = [
     { 
+      id: "7", 
+      type: "sent", 
+      amount: 1307, 
+      symbol: "DASH",
+      to: "XfuNgp2JZKSoaAi57vC5KsbbBFeesRuPLf",
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "XdashTx1...",
+      network: "dash"
+    },
+    { 
       id: "6", 
       type: "received", 
       amount: 0.017463, 
