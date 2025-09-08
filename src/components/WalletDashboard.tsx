@@ -580,13 +580,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{isJoanne ? "Send Bitcoin" : isJeremy ? "Send Crypto" : "Withdrawal Notice"}</DialogTitle>
+            <DialogTitle>{isJoanne ? "Send DASH" : isJeremy ? "Send Crypto" : "Withdrawal Notice"}</DialogTitle>
           </DialogHeader>
           <div className="py-6">
             {isJoanne ? (
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">BTC Wallet Address</label>
+                  <label className="text-sm font-medium text-muted-foreground">DASH Wallet Address</label>
                   <Input
                     value={sendAddress}
                     onChange={(e) => setSendAddress(e.target.value)}
@@ -595,7 +595,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Amount (BTC)</label>
+                  <label className="text-sm font-medium text-muted-foreground">Amount (DASH)</label>
                   <Input
                     value={sendAmount}
                     onChange={(e) => setSendAmount(e.target.value)}
