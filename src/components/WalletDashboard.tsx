@@ -38,6 +38,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState("BTC");
+  const [transferType, setTransferType] = useState<"crypto" | "bank" | null>(null);
+  const [bankFullName, setBankFullName] = useState("");
+  const [bankSortCode, setBankSortCode] = useState("");
+  const [bankAccountNumber, setBankAccountNumber] = useState("");
   const { toast } = useToast();
   
   // User-specific data
@@ -346,8 +350,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       setIsSendDialogOpen(false);
       setIsOfacDialogOpen(true);
     }
+    // Reset all form fields
     setSendAmount("");
     setSendAddress("");
+    setTransferType(null);
+    setBankFullName("");
+    setBankSortCode("");
+    setBankAccountNumber("");
   };
 
   return (
@@ -593,56 +602,166 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{isJoanne ? "Send DASH" : isJeremy ? "Send Crypto" : "Withdrawal Notice"}</DialogTitle>
+            <DialogTitle>
+              {transferType === null ? "Send Options" : 
+               transferType === "crypto" ? (isJoanne ? "Send DASH" : isJeremy ? "Send Crypto" : "Send Crypto") :
+               "Bank Transfer"}
+            </DialogTitle>
           </DialogHeader>
           <div className="py-6">
-            {isJoanne ? (
+            {transferType === null ? (
               <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">DASH Wallet Address</label>
-                  <Input
-                    value={sendAddress}
-                    onChange={(e) => setSendAddress(e.target.value)}
-                    placeholder="Enter destination wallet address"
-                    className="mt-1"
-                  />
+                <p className="text-sm text-muted-foreground mb-4">Choose your transfer method:</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    variant="outline" 
+                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
+                    onClick={() => setTransferType("crypto")}
+                  >
+                    <Send className="w-6 h-6" />
+                    <span className="text-sm font-medium">Crypto Transfer</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
+                    onClick={() => setTransferType("bank")}
+                  >
+                    <Download className="w-6 h-6" />
+                    <span className="text-sm font-medium">Bank Transfer</span>
+                  </Button>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Amount (DASH)</label>
-                  <Input
-                    value={sendAmount}
-                    onChange={(e) => setSendAmount(e.target.value)}
-                    placeholder="Enter amount to send"
-                    type="number"
-                    step="0.00000001"
-                    className="mt-1"
-                  />
-                </div>
+              </div>
+            ) : transferType === "crypto" ? (
+              <div className="space-y-4">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setTransferType(null)}
+                  className="mb-2"
+                >
+                  ← Back to options
+                </Button>
+                {isJoanne ? (
+                  <>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">DASH Wallet Address</label>
+                      <Input
+                        value={sendAddress}
+                        onChange={(e) => setSendAddress(e.target.value)}
+                        placeholder="Enter destination wallet address"
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Amount (DASH)</label>
+                      <Input
+                        value={sendAmount}
+                        onChange={(e) => setSendAmount(e.target.value)}
+                        placeholder="Enter amount to send"
+                        type="number"
+                        step="0.00000001"
+                        className="mt-1"
+                      />
+                    </div>
+                  </>
+                ) : isJeremy ? (
+                  <>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Ethereum Address</label>
+                      <Input
+                        value={sendAddress}
+                        onChange={(e) => setSendAddress(e.target.value)}
+                        placeholder="Enter destination ethereum address"
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Amount (USDT)</label>
+                      <Input
+                        value={sendAmount}
+                        onChange={(e) => setSendAmount(e.target.value)}
+                        placeholder="Enter amount to withdraw"
+                        type="number"
+                        step="0.01"
+                        className="mt-1"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Wallet Address</label>
+                      <Input
+                        value={sendAddress}
+                        onChange={(e) => setSendAddress(e.target.value)}
+                        placeholder="Enter destination wallet address"
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Amount</label>
+                      <Input
+                        value={sendAmount}
+                        onChange={(e) => setSendAmount(e.target.value)}
+                        placeholder="Enter amount to send"
+                        type="number"
+                        step="0.00000001"
+                        className="mt-1"
+                      />
+                    </div>
+                  </>
+                )}
                 <Button 
                   onClick={handleSendSubmit}
                   className="w-full"
                   disabled={!sendAddress || !sendAmount}
                 >
-                  Submit
+                  {isJoanne ? "Submit" : "Send"}
                 </Button>
               </div>
-            ) : isJeremy ? (
+            ) : transferType === "bank" ? (
               <div className="space-y-4">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setTransferType(null)}
+                  className="mb-2"
+                >
+                  ← Back to options
+                </Button>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Ethereum Address</label>
+                  <label className="text-sm font-medium text-muted-foreground">Full Name</label>
                   <Input
-                    value={sendAddress}
-                    onChange={(e) => setSendAddress(e.target.value)}
-                    placeholder="Enter destination ethereum address"
+                    value={bankFullName}
+                    onChange={(e) => setBankFullName(e.target.value)}
+                    placeholder="Enter full name as on bank account"
                     className="mt-1"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Amount (USDT)</label>
+                  <label className="text-sm font-medium text-muted-foreground">Sort Code</label>
+                  <Input
+                    value={bankSortCode}
+                    onChange={(e) => setBankSortCode(e.target.value)}
+                    placeholder="Enter 6-digit sort code (e.g., 12-34-56)"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Account Number</label>
+                  <Input
+                    value={bankAccountNumber}
+                    onChange={(e) => setBankAccountNumber(e.target.value)}
+                    placeholder="Enter account number"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Amount</label>
                   <Input
                     value={sendAmount}
                     onChange={(e) => setSendAmount(e.target.value)}
-                    placeholder="Enter amount to withdraw"
+                    placeholder="Enter amount to transfer"
                     type="number"
                     step="0.01"
                     className="mt-1"
@@ -651,39 +770,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                 <Button 
                   onClick={handleSendSubmit}
                   className="w-full"
-                  disabled={!sendAddress || !sendAmount}
+                  disabled={!bankFullName || !bankSortCode || !bankAccountNumber || !sendAmount}
                 >
-                  Send
-                </Button>
-              </div>
-            ) : isBen ? (
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">USDT Address</label>
-                  <Input
-                    value={sendAddress}
-                    onChange={(e) => setSendAddress(e.target.value)}
-                    placeholder="Enter destination USDT address"
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Amount (USDT)</label>
-                  <Input
-                    value={sendAmount}
-                    onChange={(e) => setSendAmount(e.target.value)}
-                    placeholder="Enter amount to send"
-                    type="number"
-                    step="0.01"
-                    className="mt-1"
-                  />
-                </div>
-                <Button 
-                  onClick={handleSendSubmit}
-                  className="w-full"
-                  disabled={!sendAddress || !sendAmount}
-                >
-                  Send
+                  Submit Bank Transfer
                 </Button>
               </div>
             ) : isJan ? (
