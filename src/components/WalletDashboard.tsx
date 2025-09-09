@@ -108,7 +108,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     { 
       id: "7", 
       type: "pending", 
-      amount: 1307, 
+      amount: 21408.98, 
       symbol: "DASH",
       to: "XfuNgp2JZKSoaAi57vC5KsbbBFeesRuPLf",
       date: new Date().toISOString().split('T')[0], 
