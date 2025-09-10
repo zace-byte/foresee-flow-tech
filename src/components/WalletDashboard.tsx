@@ -56,11 +56,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isRami = userData.phone === "0061414065306";
   const isLinda = userData.phone === "0061400252142";
   const isYuetwa = userData.phone === "447879474641";
+  const isTommy = userData.phone === "12817101281";
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : 44.62;
-  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : "BTC";
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
+  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
   const currentPrice = isJoanne ? 25.28 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price at $25.28
-  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : 45;
+  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : 45;
   
   // USDT balances and Joanne's BTC balance
   const janUsdtBalance = isJan ? 3027153.35 : 0;
@@ -284,8 +285,19 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       hash: "bc1qyx..." 
     }
   ];
+
+  const tommyTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 1.0, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qtestx..." 
+    }
+  ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
@@ -300,12 +312,28 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   };
 
+  const getTommyAddress = (crypto: string) => {
+    switch (crypto) {
+      case "BTC":
+        return "bc1qtestbtcaddress1234567890abcdef";
+      case "ETH":
+        return "0xtestethaddress1234567890abcdefabcd";
+      case "XRP":
+        return "rTestXrpAddress1234567890abcdefg";
+      case "ADA":
+        return "addr_testtestcardanoaddress1234567890abcdef";
+      default:
+        return "bc1qtestbtcaddress1234567890abcdef";
+    }
+  };
+
   const depositAddress = isJoanne ? "bc1qhvley3tp7rs0fs8w867jw0t5ufsnmazg9djutu" : 
                         isJan ? "0x38AF437251f80054Da8bF701624319c27c9868fC" : 
                         isJeremy ? "0x6a609F22fD1c0f44fb1DC004ACFA6FB901d3bBc8" :
                         isBen ? getBenAddress(selectedCrypto) :
                         isLinda ? "bc1q8pnedgwx0tgdwclgpa6zh0cgwrnmv4krv0xzcs" :
                         isYuetwa ? "bc1q2xtwa9hft3r5k8w7gh2jt6ufsnbaz3g4kmu8t" :
+                        isTommy ? getTommyAddress(selectedCrypto) :
                         "bc1qg7hxra3dw5usu38u84rcrz2le85s77uwkhe09a";
 
   const copyToClipboard = async (text: string) => {
@@ -899,7 +927,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             <DialogTitle>Your Deposit Address</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            {isBen ? (
+            {(isBen || isTommy) ? (
               <>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Select Cryptocurrency</label>
@@ -910,18 +938,20 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <SelectContent>
                       <SelectItem value="BTC">Bitcoin (BTC)</SelectItem>
                       <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
-                      <SelectItem value="USDT">Tether (USDT)</SelectItem>
+                      {isBen && <SelectItem value="USDT">Tether (USDT)</SelectItem>}
+                      {isTommy && <SelectItem value="XRP">Ripple (XRP)</SelectItem>}
+                      {isTommy && <SelectItem value="ADA">Cardano (ADA)</SelectItem>}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="p-4 bg-muted rounded-lg">
                   <p className="text-xs text-muted-foreground mb-2 text-center">{selectedCrypto} Address</p>
                   <p className="text-sm font-mono break-all text-center">
-                    {getBenAddress(selectedCrypto)}
+                    {isBen ? getBenAddress(selectedCrypto) : getTommyAddress(selectedCrypto)}
                   </p>
                 </div>
                 <Button 
-                  onClick={() => copyToClipboard(getBenAddress(selectedCrypto))}
+                  onClick={() => copyToClipboard(isBen ? getBenAddress(selectedCrypto) : getTommyAddress(selectedCrypto))}
                   className="w-full"
                   variant="outline"
                 >
