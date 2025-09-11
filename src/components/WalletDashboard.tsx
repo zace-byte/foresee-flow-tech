@@ -176,7 +176,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       type: "pending", 
       amount: 44.62, 
       symbol: "BTC",
-      exchangeTo: 4322.50, // 44.62 BTC * ~96.9 (BTC to NZD rate approximation)
+      exchangeTo: 8584880.49, // 44.62 BTC to NZD exchange
       exchangeToSymbol: "NZD",
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
