@@ -172,6 +172,18 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const dorothyTransactions = [
     { 
+      id: "2", 
+      type: "pending", 
+      amount: 44.62, 
+      symbol: "BTC",
+      exchangeTo: 4322.50, // 44.62 BTC * ~96.9 (BTC to NZD rate approximation)
+      exchangeToSymbol: "NZD",
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "btc_to_nzd_pending...",
+      description: "Exchange BTC to New Zealand Dollars"
+    },
+    { 
       id: "1", 
       type: "received", 
       amount: 44.62, 
