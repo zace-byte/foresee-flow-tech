@@ -33,7 +33,7 @@ const Index = () => {
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-primary hover:bg-primary/90 z-50"
       >
         <a
-          href="https://t.me/Crytom1"
+          href="https://t.me/fatima_commercial"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Contact us on Telegram"
