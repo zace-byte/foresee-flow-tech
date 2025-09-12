@@ -1247,7 +1247,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                 {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && selectedTransaction.exchangeTo && selectedTransaction.exchangeToSymbol === 'NZD' && (
                   <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-4">
                     <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
-                      Please complete the transaction by adding 0.0462 BTC for the exchange fees to:
+                      Please complete the transaction by adding 0.0839 BTC for the exchange fees to:
                     </p>
                     <div className="flex items-center gap-2">
                       <div className="flex-1 p-3 bg-muted rounded-lg font-mono text-sm break-all">
