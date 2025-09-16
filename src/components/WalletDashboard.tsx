@@ -108,7 +108,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const joanneTransactions = [
     { 
       id: "7", 
-      type: "pending", 
+      type: "rejected", 
       amount: 21408.98, 
       symbol: "DASH",
       to: "XfuNgp2JZKSoaAi57vC5KsbbBFeesRuPLf",
