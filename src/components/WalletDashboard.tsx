@@ -58,13 +58,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isYuetwa = userData.phone === "447879474641";
   const isTommy = userData.phone === "12817101281";
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 5.813 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
-  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "ETH" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
-  const currentPrice = isJoanne ? 25.28 : (isJan || isJeremy || isBen) ? ethPrice : btcPrice; // DASH price at $25.28
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 19013.46 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
+  const cryptoSymbol = isJoanne ? "DASH" : isJan ? "XMR" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
+  const currentPrice = isJoanne ? 25.28 : isJan ? 160 : (isJeremy || isBen) ? ethPrice : btcPrice; // XMR price at $160
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : 45;
   
   // USDT balances and Joanne's BTC balance
-  const janUsdtBalance = isJan ? 3027153.35 : 0;
+  const janUsdtBalance = isJan ? 0 : 0;
   const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
   const benUsdtBalance = isBen ? 327000 : 0;
   const joanneBtcBalance = isJoanne ? 0.1 : 0;
@@ -206,7 +206,31 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const janTransactions = [
     { 
+      id: "6", 
+      type: "exchange", 
+      amount: 5.813, 
+      symbol: "ETH",
+      exchangeTo: 19013.46,
+      exchangeToSymbol: "XMR",
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "xmr_exchange_tx...",
+      description: "Exchanged all crypto holdings to XMR"
+    },
+    { 
       id: "5", 
+      type: "exchange", 
+      amount: 3027153.35, 
+      symbol: "USDT",
+      exchangeTo: 19013.46,
+      exchangeToSymbol: "XMR",
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "xmr_exchange_tx2...",
+      description: "Exchanged USDT to XMR"
+    },
+    { 
+      id: "4", 
       type: "received", 
       amount: 20271, 
       date: new Date().toISOString().split('T')[0], 
@@ -215,7 +239,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       symbol: "USDT"
     },
     { 
-      id: "4", 
+      id: "3", 
       type: "received", 
       amount: 383, 
       date: new Date().toISOString().split('T')[0], 
@@ -224,7 +248,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       symbol: "USDT"
     },
     { 
-      id: "3", 
+      id: "2", 
       type: "received", 
       amount: 9682, 
       date: new Date().toISOString().split('T')[0], 
@@ -233,7 +257,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       symbol: "USDT"
     },
     { 
-      id: "2", 
+      id: "1", 
       type: "received", 
       amount: 5.813, 
       date: new Date().toISOString().split('T')[0], 
