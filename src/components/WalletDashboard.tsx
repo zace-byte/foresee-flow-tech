@@ -58,7 +58,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isYuetwa = userData.phone === "447879474641";
   const isTommy = userData.phone === "12817101281";
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 9627.37 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? 0 : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? "XMR" : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
   const currentPrice = isJoanne ? 25.28 : isJan ? 316 : (isJeremy || isBen) ? ethPrice : btcPrice; // XMR price at $316
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : 45;
