@@ -1358,7 +1358,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                           </div>
                           <div>
                             <span className="text-green-600 dark:text-green-400">Exchange Fee:</span>
-                            <span className="ml-1 font-mono text-green-800 dark:text-green-200">0.5%</span>
+                            <span className="ml-1 font-mono text-green-800 dark:text-green-200">1%</span>
                           </div>
                           <div>
                             <span className="text-green-600 dark:text-green-400">Processing Time:</span>
@@ -1379,11 +1379,11 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600 dark:text-gray-400">Sort Code:</span>
-                              <span className="font-mono">20-14-53</span>
+                              <span className="font-mono">30 84 23</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600 dark:text-gray-400">Account:</span>
-                              <span className="font-mono">73482916</span>
+                              <span className="font-mono">33670668</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600 dark:text-gray-400">Reference:</span>
