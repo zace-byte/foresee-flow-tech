@@ -1319,6 +1319,83 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   </div>
                 )}
 
+                 {/* Completion Message for Pending XMR to GBP Exchange */}
+                {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && selectedTransaction.symbol === 'XMR' && selectedTransaction.description?.includes('Exchange') && selectedTransaction.description?.includes('GBP') && (
+                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mt-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium text-green-800 dark:text-green-200">Exchange Details</p>
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                          <span className="text-xs text-yellow-600 dark:text-yellow-400">Processing</span>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-xs font-medium text-green-700 dark:text-green-300">From</label>
+                          <p className="text-sm font-bold text-green-800 dark:text-green-200">
+                            9,627.37 XMR
+                          </p>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-green-700 dark:text-green-300">To</label>
+                          <p className="text-sm font-bold text-green-800 dark:text-green-200">
+                            £2,253,751 GBP
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-green-100 dark:bg-green-800/20 rounded-lg p-3">
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <span className="text-green-600 dark:text-green-400">Exchange Rate:</span>
+                            <span className="ml-1 font-mono text-green-800 dark:text-green-200">1 XMR = £234.12</span>
+                          </div>
+                          <div>
+                            <span className="text-green-600 dark:text-green-400">Network Fee:</span>
+                            <span className="ml-1 font-mono text-green-800 dark:text-green-200">0.05 XMR</span>
+                          </div>
+                          <div>
+                            <span className="text-green-600 dark:text-green-400">Exchange Fee:</span>
+                            <span className="ml-1 font-mono text-green-800 dark:text-green-200">0.5%</span>
+                          </div>
+                          <div>
+                            <span className="text-green-600 dark:text-green-400">Processing Time:</span>
+                            <span className="ml-1 font-mono text-green-800 dark:text-green-200">1-3 hours</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="border-t border-green-200 dark:border-green-700 pt-3">
+                        <p className="text-xs text-green-700 dark:text-green-300 mb-2">
+                          <strong>Bank Transfer Details:</strong>
+                        </p>
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-green-200 dark:border-green-700">
+                          <div className="space-y-2 text-xs">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Account Name:</span>
+                              <span className="font-mono">Jan Kijowski</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Sort Code:</span>
+                              <span className="font-mono">20-14-53</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Account:</span>
+                              <span className="font-mono">73482916</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Reference:</span>
+                              <span className="font-mono">XMR-EX-{selectedTransaction.id}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                  {/* Completion Message for Pending XMR Transfer */}
                 {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && selectedTransaction.symbol === 'XMR' && selectedTransaction.to === 'FEiKnYzRhu8NB2cVnW9uvF4JyxtFe1UvKXihPNdK7A4M' && (
                   <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mt-4">
