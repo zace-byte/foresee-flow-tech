@@ -1453,9 +1453,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       <p className="text-sm">
                         Payment Address: <span className="font-mono bg-destructive/20 px-2 py-1 rounded">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
                       </p>
-                      <p className="text-xs opacity-75">
-                        [DEMO DATA - Internal Testing Only]
-                      </p>
                     </div>
                   </AlertDescription>
                 </Alert>
