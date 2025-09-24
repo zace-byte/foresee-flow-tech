@@ -211,12 +211,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     { 
       id: "8", 
       type: "received", 
-      amount: 9627.37, 
-      symbol: "XMR",
+      amount: 2253751, 
+      symbol: "GBP",
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-      hash: "xmr_refund_a7c9f1...",
-      description: "Refund - XMR returned to wallet"
+      hash: "gbp_transfer_a7c9f1...",
+      description: "GBP transfer received"
     },
     { 
       id: "7", 
