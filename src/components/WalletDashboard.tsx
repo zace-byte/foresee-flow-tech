@@ -209,16 +209,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
   const janTransactions = [
     { 
-      id: "9", 
-      type: "pending", 
-      amount: 9627.37, 
-      symbol: "XMR",
-      date: new Date().toISOString().split('T')[0], 
-      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-      hash: "xmr_exchange_b3f8d2...",
-      description: "Exchange 9627.37 XMR to £2,253,751 GBP - Processing"
-    },
-    { 
       id: "8", 
       type: "received", 
       amount: 9627.37, 
