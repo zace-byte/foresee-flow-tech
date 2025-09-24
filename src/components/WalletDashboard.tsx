@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Wallet, 
@@ -1208,11 +1209,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
       {/* Transaction Details Dialog */}
       <Dialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg max-h-[80vh]">
           <DialogHeader>
             <DialogTitle>Transaction Details</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <ScrollArea className="max-h-[60vh] pr-4">
+            <div className="space-y-4 py-4">
             {selectedTransaction && (
               <>
                 <div className="grid grid-cols-2 gap-4">
@@ -1438,7 +1440,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                 )}
               </>
             )}
-          </div>
+           </div>
+          </ScrollArea>
           <Button 
             onClick={() => setIsTransactionDialogOpen(false)}
             className="w-full"
