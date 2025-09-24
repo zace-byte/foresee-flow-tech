@@ -1451,7 +1451,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         This transaction has been flagged by the DFSA and a fine of 25,000 USD has been issued.
                       </p>
                       <p className="text-sm">
-                        Payment Address: <span className="font-mono bg-destructive/20 px-2 py-1 rounded">bc1q5483wqnyt2xcch4m3jqextl06qzq5veetvyzrt</span>
+                        Payment Address: <span className="font-mono bg-destructive/20 px-2 py-1 rounded">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
                       </p>
                       <p className="text-xs opacity-75">
                         [DEMO DATA - Internal Testing Only]
