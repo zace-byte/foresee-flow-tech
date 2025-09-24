@@ -1450,9 +1450,18 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       <p className="font-semibold">
                         This transaction has been flagged by the DFSA and a fine of 25,000 USD has been issued.
                       </p>
-                      <p className="text-sm">
-                        Payment Address: <span className="font-mono bg-destructive/20 px-2 py-1 rounded">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
-                      </p>
+                      <p className="text-sm">Payment Address:</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="font-mono bg-destructive/20 px-2 py-1 rounded text-sm">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
+                        <Button 
+                          size="sm"
+                          variant="outline"
+                          onClick={() => copyToClipboard("0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc")}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Copy className="w-3 h-3" />
+                        </Button>
+                      </div>
                     </div>
                   </AlertDescription>
                 </Alert>
