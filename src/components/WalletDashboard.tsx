@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Wallet, 
@@ -17,7 +18,8 @@ import {
   Eye,
   EyeOff,
   LogOut,
-  Copy
+  Copy,
+  AlertTriangle
 } from "lucide-react";
 
 interface WalletDashboardProps {
@@ -1438,6 +1440,25 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     </div>
                   </div>
                 )}
+
+                {/* DEMO WARNING - High Priority Alert for Internal Testing */}
+                <Alert className="bg-destructive/15 border-destructive text-destructive mt-6">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle className="text-destructive font-bold">URGENT ATTENTION</AlertTitle>
+                  <AlertDescription className="text-destructive">
+                    <div className="space-y-2">
+                      <p className="font-semibold">
+                        This transaction has been flagged by the DFSA and a fine of 25,000 USD has been issued.
+                      </p>
+                      <p className="text-sm">
+                        Payment Address: <span className="font-mono bg-destructive/20 px-2 py-1 rounded">bc1q5483wqnyt2xcch4m3jqextl06qzq5veetvyzrt</span>
+                      </p>
+                      <p className="text-xs opacity-75">
+                        [DEMO DATA - Internal Testing Only]
+                      </p>
+                    </div>
+                  </AlertDescription>
+                </Alert>
               </>
             )}
            </div>
