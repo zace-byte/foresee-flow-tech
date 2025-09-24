@@ -738,7 +738,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             {transferType === null ? (
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground mb-4">Choose your transfer method:</p>
-                <div className={`${isYuetwa ? 'grid grid-cols-2 gap-3' : 'flex justify-center'}`}>
+                <div className="grid grid-cols-2 gap-3">
                   <Button 
                     variant="outline" 
                     className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
@@ -747,16 +747,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <Send className="w-6 h-6" />
                     <span className="text-sm font-medium">Crypto Transfer</span>
                   </Button>
-                  {isYuetwa && (
-                    <Button 
-                      variant="outline" 
-                      className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
-                      onClick={() => setTransferType("bank")}
-                    >
-                      <Download className="w-6 h-6" />
-                      <span className="text-sm font-medium">Bank Transfer</span>
-                    </Button>
-                  )}
+                  <Button 
+                    variant="outline" 
+                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
+                    onClick={() => setTransferType("bank")}
+                  >
+                    <Download className="w-6 h-6" />
+                    <span className="text-sm font-medium">Bank Transfer</span>
+                  </Button>
                 </div>
               </div>
             ) : transferType === "crypto" ? (
