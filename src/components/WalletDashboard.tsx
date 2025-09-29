@@ -65,7 +65,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   
   // Dynamic balances for Jan based on BTC purchase state
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
-  const janBtcBalance = hasExecutedBtcPurchase ? (2253751 * gbpToUsdRate) / btcPrice : 0;
+  const janBtcBalance = hasExecutedBtcPurchase ? 27.0938393646928217 : 0;
   
   const cryptoBalance = isJoanne ? 2022715.98 : isJan ? janGbpBalance : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
@@ -229,7 +229,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       type: "exchange", 
       amount: 2253751, 
       symbol: "GBP",
-      exchangeTo: janBtcBalance,
+      exchangeTo: 27.0938393646928217,
       exchangeToSymbol: "BTC",
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
