@@ -50,8 +50,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [bankFullName, setBankFullName] = useState("");
   const [bankSortCode, setBankSortCode] = useState("");
   const [bankAccountNumber, setBankAccountNumber] = useState("");
-  const [isBuyBtcDialogOpen, setIsBuyBtcDialogOpen] = useState(false);
-  const [hasExecutedBtcPurchase, setHasExecutedBtcPurchase] = useState(false);
+  const [hasExecutedBtcPurchase, setHasExecutedBtcPurchase] = useState(true); // Jan starts with BTC
   const { toast } = useToast();
   
   // User-specific data
@@ -501,20 +500,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     setBankAccountNumber("");
   };
 
-  const handleBuyBtc = () => {
-    const gbpAmount = 2253751;
-    const usdAmount = gbpAmount * gbpToUsdRate;
-    const btcAmount = usdAmount / btcPrice;
-    
-    setHasExecutedBtcPurchase(true);
-    setIsBuyBtcDialogOpen(false);
-    
-    toast({
-      title: "Bitcoin Purchase Complete",
-      description: `Converted £${gbpAmount.toLocaleString()} to ${btcAmount.toFixed(8)} BTC at $${btcPrice.toLocaleString()}/BTC`,
-    });
-  };
-
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -656,15 +641,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               <Download className="w-4 h-4 mr-2" />
               Receive
             </Button>
-            {isJan && !hasExecutedBtcPurchase && (
-              <Button 
-                className="flex-1" 
-                variant="outline"
-                onClick={() => setIsBuyBtcDialogOpen(true)}
-              >
-                Buy BTC
-              </Button>
-            )}
             <Button variant="ghost">
               <RefreshCw className="w-4 h-4" />
             </Button>
@@ -1515,64 +1491,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           >
             Close
           </Button>
-        </DialogContent>
-      </Dialog>
-
-      {/* Buy BTC Dialog - Jan only */}
-      <Dialog open={isBuyBtcDialogOpen} onOpenChange={setIsBuyBtcDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Buy Bitcoin</DialogTitle>
-          </DialogHeader>
-          <div className="py-6">
-            <div className="space-y-6">
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Convert all your GBP to Bitcoin at current market rates
-                </p>
-                
-                <div className="bg-muted/50 rounded-lg p-4 space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm">GBP Balance:</span>
-                    <span className="font-mono">£{cryptoBalance.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">USD Value:</span>
-                    <span className="font-mono">${(cryptoBalance * gbpToUsdRate).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">BTC Price:</span>
-                    <span className="font-mono">${btcPrice.toLocaleString()}</span>
-                  </div>
-                  <div className="border-t pt-3">
-                    <div className="flex justify-between font-semibold">
-                      <span className="text-sm">You will receive:</span>
-                      <span className="font-mono text-primary">
-                        {((cryptoBalance * gbpToUsdRate) / btcPrice).toFixed(8)} BTC
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="space-y-3">
-                <Button 
-                  onClick={handleBuyBtc}
-                  className="w-full"
-                  variant="premium"
-                >
-                  Convert All GBP to Bitcoin
-                </Button>
-                <Button 
-                  onClick={() => setIsBuyBtcDialogOpen(false)}
-                  className="w-full"
-                  variant="outline"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </div>
         </DialogContent>
       </Dialog>
 
