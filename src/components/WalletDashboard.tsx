@@ -527,7 +527,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         </div>
 
         {/* Balance Card */}
-        <Card className="p-6 shadow-card-custom border-0">
+        <Card className="p-6 shadow-card-custom border-0 transition-all duration-300 hover:shadow-lg animate-fade-in">
           <div className="flex justify-between items-start mb-4">
             <div>
               <div className="flex items-center space-x-2 mb-2">
@@ -536,8 +536,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsBalanceVisible(!isBalanceVisible)}
+                  className="transition-all duration-200 hover:scale-110"
                 >
-                  {isBalanceVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                  {isBalanceVisible ? <Eye className="w-4 h-4 transition-transform duration-200" /> : <EyeOff className="w-4 h-4 transition-transform duration-200" />}
                 </Button>
               </div>
               
@@ -631,41 +632,42 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
           <div className="flex space-x-3 mt-6">
             <Button 
-              className="flex-1" 
+              className="flex-1 transition-all duration-200 hover:scale-105" 
               variant="premium"
               onClick={() => setIsSendDialogOpen(true)}
             >
-              <Send className="w-4 h-4 mr-2" />
+              <Send className="w-4 h-4 mr-2 transition-transform duration-200" />
               Send
             </Button>
             <Button 
-              className="flex-1" 
+              className="flex-1 transition-all duration-200 hover:scale-105" 
               variant="trading"
               onClick={() => setIsReceiveDialogOpen(true)}
             >
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="w-4 h-4 mr-2 transition-transform duration-200" />
               Receive
             </Button>
-            <Button variant="ghost">
-              <RefreshCw className="w-4 h-4" />
+            <Button variant="ghost" className="transition-all duration-200 hover:scale-110">
+              <RefreshCw className="w-4 h-4 transition-transform duration-200 hover:rotate-180" />
             </Button>
           </div>
         </Card>
 
         {/* Recent Transactions */}
-        <Card className="p-6 shadow-card-custom border-0">
+        <Card className="p-6 shadow-card-custom border-0 transition-all duration-300 hover:shadow-lg animate-fade-in">
           <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
           <div className="space-y-3">
             {transactions.length === 0 ? (
-              <div className="text-center py-8">
+              <div className="text-center py-8 animate-fade-in">
                 <p className="text-muted-foreground">No transactions yet</p>
                 <p className="text-sm text-muted-foreground mt-1">Deposits will appear here</p>
               </div>
             ) : (
-              transactions.map((tx) => (
+              transactions.map((tx, index) => (
                 <div 
                   key={tx.id}
-                  className="flex items-center justify-between p-4 bg-background/50 rounded-lg cursor-pointer hover:bg-background/70 transition-colors"
+                  className="flex items-center justify-between p-4 bg-background/50 rounded-lg cursor-pointer hover:bg-background/70 transition-all duration-300 hover:scale-[1.02] animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
                   onClick={() => {
                     setSelectedTransaction(tx);
                     setIsTransactionDialogOpen(true);
@@ -750,59 +752,59 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
       {/* Send Dialog */}
       <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md animate-scale-in">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="animate-fade-in">
               {transferType === null ? "Send Options" : 
                transferType === "crypto" ? (isJoanne ? "Send DASH" : isJeremy ? "Send Crypto" : "Send Crypto") :
                "Bank Transfer"}
             </DialogTitle>
           </DialogHeader>
-          <div className="py-6">
+          <div className="py-6 animate-fade-in">
             {transferType === null ? (
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground mb-4">Choose your transfer method:</p>
-                <div className="grid grid-cols-2 gap-3">
+                <p className="text-sm text-muted-foreground mb-4 animate-fade-in">Choose your transfer method:</p>
+                <div className="grid grid-cols-2 gap-3 animate-fade-in">
                   <Button 
                     variant="outline" 
-                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
+                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 hover:scale-105 animate-fade-in"
                     onClick={() => setTransferType("crypto")}
                   >
-                    <Send className="w-6 h-6" />
+                    <Send className="w-6 h-6 transition-transform duration-200" />
                     <span className="text-sm font-medium">Crypto Transfer</span>
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5"
+                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-background border-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 hover:scale-105 animate-fade-in"
                     onClick={() => setTransferType("bank")}
                   >
-                    <Download className="w-6 h-6" />
+                    <Download className="w-6 h-6 transition-transform duration-200" />
                     <span className="text-sm font-medium">Bank Transfer</span>
                   </Button>
                 </div>
               </div>
             ) : transferType === "crypto" ? (
-              <div className="space-y-4">
+              <div className="space-y-4 animate-fade-in">
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={() => setTransferType(null)}
-                  className="mb-2"
+                  className="mb-2 transition-all duration-200 hover:scale-105"
                 >
                   ← Back to options
                 </Button>
                 {isJoanne ? (
                   <>
-                    <div>
+                    <div className="animate-fade-in">
                       <label className="text-sm font-medium text-muted-foreground">DASH Wallet Address</label>
                       <Input
                         value={sendAddress}
                         onChange={(e) => setSendAddress(e.target.value)}
                         placeholder="Enter destination wallet address"
-                        className="mt-1"
+                        className="mt-1 transition-all duration-200 focus:scale-[1.02]"
                       />
                     </div>
-                    <div>
+                    <div className="animate-fade-in">
                       <label className="text-sm font-medium text-muted-foreground">Amount (DASH)</label>
                       <Input
                         value={sendAmount}
@@ -810,22 +812,22 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         placeholder="Enter amount to send"
                         type="number"
                         step="0.00000001"
-                        className="mt-1"
+                        className="mt-1 transition-all duration-200 focus:scale-[1.02]"
                       />
                     </div>
                   </>
                 ) : isJeremy ? (
                   <>
-                    <div>
+                    <div className="animate-fade-in">
                       <label className="text-sm font-medium text-muted-foreground">Ethereum Address</label>
                       <Input
                         value={sendAddress}
                         onChange={(e) => setSendAddress(e.target.value)}
                         placeholder="Enter destination ethereum address"
-                        className="mt-1"
+                        className="mt-1 transition-all duration-200 focus:scale-[1.02]"
                       />
                     </div>
-                    <div>
+                    <div className="animate-fade-in">
                       <label className="text-sm font-medium text-muted-foreground">Amount (USDT)</label>
                       <Input
                         value={sendAmount}
@@ -833,22 +835,22 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         placeholder="Enter amount to withdraw"
                         type="number"
                         step="0.01"
-                        className="mt-1"
+                        className="mt-1 transition-all duration-200 focus:scale-[1.02]"
                       />
                     </div>
                   </>
                 ) : (
                   <>
-                    <div>
+                    <div className="animate-fade-in">
                       <label className="text-sm font-medium text-muted-foreground">Wallet Address</label>
                       <Input
                         value={sendAddress}
                         onChange={(e) => setSendAddress(e.target.value)}
                         placeholder="Enter destination wallet address"
-                        className="mt-1"
+                        className="mt-1 transition-all duration-200 focus:scale-[1.02]"
                       />
                     </div>
-                    <div>
+                    <div className="animate-fade-in">
                       <label className="text-sm font-medium text-muted-foreground">Amount</label>
                       <Input
                         value={sendAmount}
@@ -856,14 +858,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         placeholder="Enter amount to send"
                         type="number"
                         step="0.00000001"
-                        className="mt-1"
+                        className="mt-1 transition-all duration-200 focus:scale-[1.02]"
                       />
                     </div>
                   </>
                 )}
                 <Button 
                   onClick={handleSendSubmit}
-                  className="w-full"
+                  className="w-full transition-all duration-200 hover:scale-105 animate-fade-in"
                   disabled={!sendAddress || !sendAmount}
                 >
                   {isJoanne ? "Submit" : "Send"}
@@ -1501,13 +1503,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
       {/* Jan Urgent Attention Dialog */}
       <Dialog open={isJanUrgentDialogOpen} onOpenChange={setIsJanUrgentDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md animate-scale-in">
           <DialogHeader>
-            <DialogTitle className="text-destructive font-bold">URGENT ATTENTION</DialogTitle>
+            <DialogTitle className="text-destructive font-bold animate-fade-in">URGENT ATTENTION</DialogTitle>
           </DialogHeader>
-          <div className="py-6">
-            <Alert className="bg-destructive/15 border-destructive text-destructive">
-              <AlertTriangle className="h-4 w-4" />
+          <div className="py-6 animate-fade-in">
+            <Alert className="bg-destructive/15 border-destructive text-destructive animate-fade-in">
+              <AlertTriangle className="h-4 w-4 animate-pulse" />
               <AlertTitle className="text-destructive font-bold">URGENT ATTENTION</AlertTitle>
               <AlertDescription className="text-destructive">
                 <div className="space-y-2">
@@ -1516,14 +1518,14 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   </p>
                   <p className="text-sm">Payment Address:</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="font-mono bg-destructive/20 px-2 py-1 rounded text-sm">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
+                    <span className="font-mono bg-destructive/20 px-2 py-1 rounded text-sm transition-all duration-200 hover:bg-destructive/30">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
                     <Button 
                       size="sm"
                       variant="outline"
                       onClick={() => copyToClipboard("0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc")}
-                      className="h-8 w-8 p-0"
+                      className="h-8 w-8 p-0 transition-all duration-200 hover:scale-110"
                     >
-                      <Copy className="w-3 h-3" />
+                      <Copy className="w-3 h-3 transition-transform duration-200" />
                     </Button>
                   </div>
                 </div>
@@ -1532,7 +1534,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
           </div>
           <Button 
             onClick={() => setIsJanUrgentDialogOpen(false)}
-            className="w-full"
+            className="w-full transition-all duration-200 hover:scale-105"
           >
             Close
           </Button>
