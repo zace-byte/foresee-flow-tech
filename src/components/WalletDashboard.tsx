@@ -65,7 +65,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   
   // Dynamic balances for Jan based on BTC purchase state
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
-  const janBtcBalance = hasExecutedBtcPurchase ? 27.0938393646928217 : 0;
+  const janBtcBalance = hasExecutedBtcPurchase ? 0.0138393646928217 : 0;
   
   const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
@@ -224,18 +224,53 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   ];
 
   const [janTransactions, setJanTransactions] = useState([
-    ...(hasExecutedBtcPurchase ? [{
-      id: "9", 
-      type: "exchange", 
-      amount: 2253751, 
-      symbol: "GBP",
-      exchangeTo: 27.0938393646928217,
-      exchangeToSymbol: "BTC",
-      date: new Date().toISOString().split('T')[0], 
-      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-      hash: "gbp_to_btc_exchange...",
-      description: `Exchanged all GBP to Bitcoin at $${btcPrice.toLocaleString()}`
-    }] : []),
+    ...(hasExecutedBtcPurchase ? [
+      {
+        id: "pending_3",
+        type: "pending",
+        amount: 9.08,
+        symbol: "BTC",
+        to: "bc1q3mcrvqevl55frvc6lpyt7n6ttw6h59vz92cvhk",
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+        hash: `pending_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction pending confirmation"
+      },
+      {
+        id: "pending_2",
+        type: "pending",
+        amount: 9,
+        symbol: "BTC",
+        to: "1NkTH7HFZ3A9CsrBYygCHtB7RK2bmRTCW",
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+        hash: `pending_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction pending confirmation"
+      },
+      {
+        id: "pending_1",
+        type: "pending",
+        amount: 9,
+        symbol: "BTC",
+        to: "3GZ1sxHaHKkrwmqNvSEfjgNZeMwg9Dy3dP",
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+        hash: `pending_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction pending confirmation"
+      },
+      {
+        id: "9", 
+        type: "exchange", 
+        amount: 2253751, 
+        symbol: "GBP",
+        exchangeTo: 27.0938393646928217,
+        exchangeToSymbol: "BTC",
+        date: new Date().toISOString().split('T')[0], 
+        time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+        hash: "gbp_to_btc_exchange...",
+        description: `Exchanged all GBP to Bitcoin at $${btcPrice.toLocaleString()}`
+      }
+    ] : []),
     { 
       id: "8", 
       type: "received", 
