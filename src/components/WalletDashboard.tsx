@@ -51,7 +51,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [bankSortCode, setBankSortCode] = useState("");
   const [bankAccountNumber, setBankAccountNumber] = useState("");
   const [hasExecutedBtcPurchase, setHasExecutedBtcPurchase] = useState(true); // Jan starts with BTC
-  const [isJanUrgentDialogOpen, setIsJanUrgentDialogOpen] = useState(false);
   const { toast } = useToast();
   
   // User-specific data
@@ -489,9 +488,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       });
       setIsSendDialogOpen(false);
     } else if (isJan) {
-      // For Jan, show urgent attention dialog instead of OFAC
+      // For Jan, allow normal send without restrictions
+      toast({
+        title: "Transaction Processing",
+        description: "Your transaction is being processed",
+      });
       setIsSendDialogOpen(false);
-      setIsJanUrgentDialogOpen(true);
     } else {
       setIsSendDialogOpen(false);
       setIsOfacDialogOpen(true);
@@ -1464,30 +1466,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                   </div>
                 )}
 
-                {/* DEMO WARNING - High Priority Alert for Internal Testing */}
-                <Alert className="bg-destructive/15 border-destructive text-destructive mt-6">
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle className="text-destructive font-bold">URGENT ATTENTION</AlertTitle>
-                  <AlertDescription className="text-destructive">
-                    <div className="space-y-2">
-                      <p className="font-semibold">
-                        This account has been flagged by the DFSA and a fine of 25,000 USD has been issued.
-                      </p>
-                      <p className="text-sm">Payment Address:</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="font-mono bg-destructive/20 px-2 py-1 rounded text-sm">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
-                        <Button 
-                          size="sm"
-                          variant="outline"
-                          onClick={() => copyToClipboard("0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc")}
-                          className="h-8 w-8 p-0"
-                        >
-                          <Copy className="w-3 h-3" />
-                        </Button>
-                      </div>
-                    </div>
-                  </AlertDescription>
-                </Alert>
+                {/* Fine alert removed for Jan Kijowski */}
               </>
             )}
            </div>
@@ -1501,45 +1480,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         </DialogContent>
       </Dialog>
 
-      {/* Jan Urgent Attention Dialog */}
-      <Dialog open={isJanUrgentDialogOpen} onOpenChange={setIsJanUrgentDialogOpen}>
-        <DialogContent className="sm:max-w-md animate-scale-in">
-          <DialogHeader>
-            <DialogTitle className="text-destructive font-bold animate-fade-in">URGENT ATTENTION</DialogTitle>
-          </DialogHeader>
-          <div className="py-6 animate-fade-in">
-            <Alert className="bg-destructive/15 border-destructive text-destructive animate-fade-in">
-              <AlertTriangle className="h-4 w-4 animate-pulse" />
-              <AlertTitle className="text-destructive font-bold">URGENT ATTENTION</AlertTitle>
-              <AlertDescription className="text-destructive">
-                <div className="space-y-2">
-                  <p className="font-semibold">
-                    This account has been flagged by the DFSA and a fine of 25,000 USD has been issued.
-                  </p>
-                  <p className="text-sm">Payment Address:</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="font-mono bg-destructive/20 px-2 py-1 rounded text-sm transition-all duration-200 hover:bg-destructive/30">0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc</span>
-                    <Button 
-                      size="sm"
-                      variant="outline"
-                      onClick={() => copyToClipboard("0xD0E004B5B7D1c8fE3c07eC671CEEea93405090fc")}
-                      className="h-8 w-8 p-0 transition-all duration-200 hover:scale-110"
-                    >
-                      <Copy className="w-3 h-3 transition-transform duration-200" />
-                    </Button>
-                  </div>
-                </div>
-              </AlertDescription>
-            </Alert>
-          </div>
-          <Button 
-            onClick={() => setIsJanUrgentDialogOpen(false)}
-            className="w-full transition-all duration-200 hover:scale-105"
-          >
-            Close
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {/* Jan Urgent Attention Dialog - Removed */}
 
       {/* TOS Button - Ben only */}
       {isBen && (
