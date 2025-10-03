@@ -223,7 +223,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
-  const janTransactions = [
+  const [janTransactions, setJanTransactions] = useState([
     ...(hasExecutedBtcPurchase ? [{
       id: "9", 
       type: "exchange", 
@@ -317,7 +317,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       hash: "0xd4e5f6...",
       symbol: "ETH"
     }
-  ];
+  ]);
 
   const jeremyTransactions = [
     { 
@@ -488,7 +488,21 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       });
       setIsSendDialogOpen(false);
     } else if (isJan) {
-      // For Jan, allow normal send without restrictions
+      // For Jan, add pending transaction to the list
+      const newTransaction = {
+        id: `pending_${Date.now()}`,
+        type: "pending",
+        amount: parseFloat(sendAmount),
+        symbol: selectedCrypto,
+        to: sendAddress,
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+        hash: `pending_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction pending confirmation"
+      };
+      
+      setJanTransactions([newTransaction, ...janTransactions]);
+      
       toast({
         title: "Transaction Processing",
         description: "Your transaction is being processed",
