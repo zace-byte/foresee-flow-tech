@@ -30,6 +30,7 @@ interface WalletDashboardProps {
 const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [btcPrice, setBtcPrice] = useState(0);
   const [ethPrice, setEthPrice] = useState(0);
+  const [dashPrice, setDashPrice] = useState(0);
   const [gbpToUsdRate, setGbpToUsdRate] = useState(1.27); // Default GBP to USD rate
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
@@ -69,7 +70,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   
   const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
-  const currentPrice = isJoanne ? 25.28 : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen) ? ethPrice : btcPrice; // Live GBP to USD rate
+  const currentPrice = isJoanne ? dashPrice : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen) ? ethPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : 45;
   
   // USDT balances and Joanne's BTC balance
@@ -94,8 +95,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   // Fetch real crypto prices and currency rates
   const fetchCryptoPrices = async () => {
     try {
-      // Fetch crypto prices
-      const cryptoResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+      // Fetch crypto prices including DASH
+      const cryptoResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,dash&vs_currencies=usd');
       const cryptoData = await cryptoResponse.json();
       
       // Fetch GBP to USD exchange rate
@@ -104,6 +105,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       
       setBtcPrice(cryptoData.bitcoin.usd);
       setEthPrice(cryptoData.ethereum.usd);
+      setDashPrice(cryptoData.dash.usd);
       setGbpToUsdRate(currencyData.rates.USD);
       setLastUpdated(new Date());
       setIsLoading(false);
@@ -111,6 +113,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       console.error('Error fetching prices:', error);
       setBtcPrice(67420.50); // Fallback price
       setEthPrice(2580.25); // Fallback price
+      setDashPrice(45.23); // Fallback price
       setGbpToUsdRate(1.27); // Fallback GBP to USD rate
       setIsLoading(false);
     }
