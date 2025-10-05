@@ -70,7 +70,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
   const janBtcBalance = hasExecutedBtcPurchase ? 0.0138393646928217 : 0;
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 0.5 : 44.62;
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 6.36 : 44.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : isElaine ? "BTC" : "BTC";
   const currentPrice = isJoanne ? dashPrice : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen) ? ethPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : isElaine ? 0.1 : 45;
@@ -433,7 +433,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     { 
       id: "1", 
       type: "received", 
-      amount: 0.5, 
+      amount: 6.36, 
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
       hash: "bc1qelx..." 
