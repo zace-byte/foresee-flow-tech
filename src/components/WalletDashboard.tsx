@@ -241,8 +241,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         description: "Transaction approved",
         steps: [
           { name: "Sent by Commercial Wallet", completed: true },
-          { name: "Approved by 5AMLD", completed: true },
-          { name: "Transfer completed", completed: true }
+          { name: "Approved by 5AMLD", completed: false },
+          { name: "Transfer completed", completed: false }
         ]
       },
       {
@@ -257,8 +257,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         description: "Transaction approved",
         steps: [
           { name: "Sent by Commercial Wallet", completed: true },
-          { name: "Approved by 5AMLD", completed: true },
-          { name: "Transfer completed", completed: true }
+          { name: "Approved by 5AMLD", completed: false },
+          { name: "Transfer completed", completed: false }
         ]
       },
       {
@@ -273,8 +273,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         description: "Transaction approved",
         steps: [
           { name: "Sent by Commercial Wallet", completed: true },
-          { name: "Approved by 5AMLD", completed: true },
-          { name: "Transfer completed", completed: true }
+          { name: "Approved by 5AMLD", completed: false },
+          { name: "Transfer completed", completed: false }
         ]
       },
       {
