@@ -19,7 +19,8 @@ import {
   EyeOff,
   LogOut,
   Copy,
-  AlertTriangle
+  AlertTriangle,
+  CheckCircle2
 } from "lucide-react";
 
 interface WalletDashboardProps {
@@ -230,36 +231,36 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     ...(hasExecutedBtcPurchase ? [
       {
         id: "pending_3",
-        type: "pending",
+        type: "approved",
         amount: 9.08,
         symbol: "BTC",
         to: "bc1q3mcrvqevl55frvc6lpyt7n6ttw6h59vz92cvhk",
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-        hash: `pending_${Math.random().toString(36).substring(7)}`,
-        description: "Transaction pending confirmation"
+        hash: `approved_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction approved"
       },
       {
         id: "pending_2",
-        type: "pending",
+        type: "approved",
         amount: 9,
         symbol: "BTC",
         to: "1NkTH7HFZ3A9CsrBYygCHtB7RK2bmRTCW",
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-        hash: `pending_${Math.random().toString(36).substring(7)}`,
-        description: "Transaction pending confirmation"
+        hash: `approved_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction approved"
       },
       {
         id: "pending_1",
-        type: "pending",
+        type: "approved",
         amount: 9,
         symbol: "BTC",
         to: "3GZ1sxHaHKkrwmqNvSEfjgNZeMwg9Dy3dP",
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-        hash: `pending_${Math.random().toString(36).substring(7)}`,
-        description: "Transaction pending confirmation"
+        hash: `approved_${Math.random().toString(36).substring(7)}`,
+        description: "Transaction approved"
       },
       {
         id: "9", 
@@ -731,10 +732,13 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                       tx.status === 'pending' ? 'bg-destructive/20' : 
                       tx.status === 'rejected' ? 'bg-destructive/20' :
+                      tx.type === 'approved' ? 'bg-blue-500/20' :
                       tx.type === 'received' ? 'bg-bull/20' : 
                       tx.type === 'exchange' ? 'bg-primary/20' : 'bg-bear/20'
                     }`}>
-                      {tx.type === 'received' ? (
+                      {tx.type === 'approved' ? (
+                        <CheckCircle2 className="w-5 h-5 text-blue-500" />
+                      ) : tx.type === 'received' ? (
                         <TrendingUp className={`w-5 h-5 ${
                           tx.status === 'pending' ? 'text-destructive' : 
                           tx.status === 'rejected' ? 'text-destructive' : 'text-bull'
@@ -748,7 +752,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <div>
                       <p className="font-semibold capitalize">
                         {tx.status === 'pending' ? 'Pending' : 
-                         tx.status === 'rejected' ? 'Rejected' : 
+                         tx.status === 'rejected' ? 'Rejected' :
+                         tx.type === 'approved' ? 'Approved' : 
                          tx.type === 'exchange' ? 'Exchange' : tx.type}
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -771,6 +776,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                        <p className={`font-semibold ${
                          tx.status === 'pending' ? 'text-destructive' :
                          tx.status === 'rejected' ? 'text-destructive' :
+                         tx.type === 'approved' ? 'text-blue-500' :
                          tx.type === 'received' ? 'text-bull' : 'text-bear'
                        }`}>
                          {tx.type === 'received' ? '+' : '-'}{tx.amount} {tx.symbol || cryptoSymbol}
@@ -1302,6 +1308,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <p className={`text-sm font-medium mt-1 ${
                       selectedTransaction.status === 'pending' ? 'text-yellow-500' :
                       selectedTransaction.status === 'rejected' ? 'text-destructive' :
+                      selectedTransaction.type === 'approved' ? 'text-blue-500' :
                       selectedTransaction.type === 'received' || selectedTransaction.type === 'pending' ? 'text-green-500' :
                       selectedTransaction.type === 'exchange' ? 'text-blue-500' :
                       'text-red-500'
@@ -1309,6 +1316,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       {selectedTransaction.status || 
                        (selectedTransaction.type === 'exchange' ? 'Exchanged' :
                         selectedTransaction.type === 'received' ? 'Received' :
+                        selectedTransaction.type === 'approved' ? 'Approved' :
                         selectedTransaction.type === 'pending' ? 'Pending' :
                         'Sent')}
                     </p>
