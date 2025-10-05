@@ -238,7 +238,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
         hash: `approved_${Math.random().toString(36).substring(7)}`,
-        description: "Transaction approved"
+        description: "Transaction approved",
+        steps: [
+          { name: "Sent by Commercial Wallet", completed: true },
+          { name: "Approved by 5AMLD", completed: true },
+          { name: "Transfer completed", completed: true }
+        ]
       },
       {
         id: "pending_2",
@@ -249,7 +254,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
         hash: `approved_${Math.random().toString(36).substring(7)}`,
-        description: "Transaction approved"
+        description: "Transaction approved",
+        steps: [
+          { name: "Sent by Commercial Wallet", completed: true },
+          { name: "Approved by 5AMLD", completed: true },
+          { name: "Transfer completed", completed: true }
+        ]
       },
       {
         id: "pending_1",
@@ -260,7 +270,12 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
         hash: `approved_${Math.random().toString(36).substring(7)}`,
-        description: "Transaction approved"
+        description: "Transaction approved",
+        steps: [
+          { name: "Sent by Commercial Wallet", completed: true },
+          { name: "Approved by 5AMLD", completed: true },
+          { name: "Transfer completed", completed: true }
+        ]
       },
       {
         id: "9", 
@@ -1364,7 +1379,35 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       {selectedTransaction.exchangeTo} {selectedTransaction.exchangeToSymbol}
                     </p>
                   </div>
-                )}
+                 )}
+                 
+                 {/* Transaction Steps for Approved Transactions */}
+                 {selectedTransaction.type === 'approved' && selectedTransaction.steps && (
+                   <div className="mt-4">
+                     <label className="text-sm font-medium text-muted-foreground mb-3 block">Transaction Progress</label>
+                     <div className="space-y-3">
+                       {selectedTransaction.steps.map((step: any, index: number) => (
+                         <div key={index} className="flex items-center gap-3">
+                           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                             step.completed ? 'bg-blue-500' : 'bg-muted'
+                           }`}>
+                             <CheckCircle2 className={`w-5 h-5 ${
+                               step.completed ? 'text-white' : 'text-muted-foreground'
+                             }`} />
+                           </div>
+                           <div className="flex-1">
+                             <p className={`text-sm font-medium ${
+                               step.completed ? 'text-blue-500' : 'text-muted-foreground'
+                             }`}>
+                               Step {index + 1}: {step.name}
+                             </p>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 )}
+                 
                 
                 {/* Completion Message for Pending DASH Transaction */}
                 {(selectedTransaction.status === 'pending' || selectedTransaction.type === 'pending') && (selectedTransaction.symbol === 'DASH') && (
