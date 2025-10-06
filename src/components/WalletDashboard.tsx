@@ -21,7 +21,8 @@ import {
   LogOut,
   Copy,
   AlertTriangle,
-  CheckCircle2
+  CheckCircle2,
+  KeyRound
 } from "lucide-react";
 
 interface WalletDashboardProps {
@@ -47,6 +48,10 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [isClaimingFeeDialogOpen, setIsClaimingFeeDialogOpen] = useState(false);
+  const [isChangePasswordDialogOpen, setIsChangePasswordDialogOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState("BTC");
@@ -609,10 +614,16 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               <p className="text-sm text-muted-foreground">{userData.name}</p>
             </div>
           </div>
-          <Button variant="ghost" onClick={onLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="ghost" onClick={() => setIsChangePasswordDialogOpen(true)}>
+              <KeyRound className="w-4 h-4 mr-2" />
+              Change Password
+            </Button>
+            <Button variant="ghost" onClick={onLogout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Balance Card */}
@@ -1646,6 +1657,103 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       </Dialog>
 
       {/* Jan Urgent Attention Dialog - Removed */}
+
+      {/* Change Password Dialog */}
+      <Dialog open={isChangePasswordDialogOpen} onOpenChange={setIsChangePasswordDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <KeyRound className="w-5 h-5" />
+              Change Password
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Current Password</label>
+              <Input
+                type="password"
+                placeholder="Enter current password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">New Password</label>
+              <Input
+                type="password"
+                placeholder="Enter new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Confirm New Password</label>
+              <Input
+                type="password"
+                placeholder="Confirm new password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-end">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsChangePasswordDialogOpen(false);
+                setCurrentPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                  toast({
+                    title: "Missing fields",
+                    description: "Please fill in all password fields",
+                    variant: "destructive",
+                  });
+                  return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                  toast({
+                    title: "Passwords don't match",
+                    description: "New password and confirmation must match",
+                    variant: "destructive",
+                  });
+                  return;
+                }
+                
+                if (newPassword.length < 6) {
+                  toast({
+                    title: "Password too short",
+                    description: "Password must be at least 6 characters",
+                    variant: "destructive",
+                  });
+                  return;
+                }
+                
+                // Simulate password change success
+                toast({
+                  title: "Password changed successfully",
+                  description: "Your password has been updated",
+                });
+                
+                setIsChangePasswordDialogOpen(false);
+                setCurrentPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+              }}
+            >
+              Change Password
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* TOS Button - Ben only */}
       {isBen && (
