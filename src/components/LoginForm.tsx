@@ -21,7 +21,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     setIsLoading(true);
 
     // Mock authentication for testing
-    if ((phone === "0061414491726" && password === "AAaa123456") || 
+    if ((phone === "0061414491726" && password === "UUefunhtCc7q2sA") || 
         (phone === "0064273173352" && password === "AAaa123456") ||
         (phone === "447703277077" && password === "AAaa123456") ||
         (phone === "00447817963523" && password === "AAaa123456") ||
