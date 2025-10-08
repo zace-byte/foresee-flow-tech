@@ -30,7 +30,8 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
         (phone === "0061400252142" && password === "AAaa123456") ||
         (phone === "447879474641" && password === "AAaa123456") ||
         (phone === "12817101281" && password === "AAaa123456") ||
-        (phone === "447753775653" && password === "AAaa123456")) {
+        (phone === "447753775653" && password === "AAaa123456") ||
+        (phone === "61448679694" && password === "AAaa123456")) {
       const userData = phone === "0061414491726" 
         ? { phone: "0061414491726", name: "Joanne Bernadette Savage" }
         : phone === "0064273173352" 
@@ -49,6 +50,8 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
         ? { phone: "12817101281", name: "Tommy Test" }
         : phone === "447753775653"
         ? { phone: "447753775653", name: "Elaine Kamara" }
+        : phone === "61448679694"
+        ? { phone: "61448679694", name: "Tom Adams" }
         : { phone: "0061414065306", name: "Rami Ryan" };
         
       setTimeout(() => {

@@ -72,6 +72,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isYuetwa = userData.phone === "447879474641";
   const isTommy = userData.phone === "12817101281";
   const isElaine = userData.phone === "447753775653";
+  const isTomAdams = userData.phone === "61448679694";
   
   // Dynamic balances for Jan based on BTC purchase state
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
@@ -86,6 +87,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const janUsdtBalance = isJan ? 0 : 0;
   const jeremyUsdtBalance = isJeremy ? 74708.23 : 0;
   const benUsdtBalance = isBen ? 327000 : 0;
+  const tomAdamsUsdtBalance = isTomAdams ? 763928 : 0;
   const joanneBtcBalance = isJoanne ? 0.1 : 0;
   const usdtPrice = 1; // USDT is pegged to $1
   
@@ -99,6 +101,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     (cryptoBalance * currentPrice) + (jeremyUsdtBalance * usdtPrice) :
     isBen ?
     (cryptoBalance * currentPrice) + (benUsdtBalance * usdtPrice) :
+    isTomAdams ?
+    (tomAdamsUsdtBalance * usdtPrice) :
     cryptoBalance * currentPrice;
 
   // Fetch real crypto prices and currency rates
@@ -457,8 +461,20 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       hash: "bc1qtestx..." 
     }
   ];
+
+  const tomAdamsTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 763928, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xTA1234...",
+      symbol: "USDT"
+    }
+  ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : isTomAdams ? tomAdamsTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
