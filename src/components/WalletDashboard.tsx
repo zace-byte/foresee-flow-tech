@@ -532,7 +532,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   };
 
   const handleSendSubmit = () => {
-    if (transferType === "bank") {
+    if (isTomAdams) {
+      // For Tom Adams, show customer support message
+      toast({
+        title: "Contact Customer Support",
+        description: "Please contact customer support to proceed with transfer",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
+    } else if (transferType === "bank") {
       // For bank transfer submissions, show dialog with withdrawal fee link
       setIsSendDialogOpen(false);
       setIsBankTransferDialogOpen(true);
