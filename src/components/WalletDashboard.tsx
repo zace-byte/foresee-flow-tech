@@ -480,8 +480,8 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       id: "1", 
       type: "received", 
       amount: 170, 
-      date: new Date().toISOString().split('T')[0], 
-      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      date: "2023-04-05", 
+      time: "14:32",
       hash: "bc1qMW1234...",
       symbol: "BTC"
     }
