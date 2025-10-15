@@ -894,13 +894,58 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
         {/* Receipts Section - Jan Kijowski only */}
         {isJan && (
           <Card className="p-6 shadow-card-custom border-0 transition-all duration-300 hover:shadow-lg animate-fade-in">
-            <h2 className="text-xl font-semibold mb-4">Receipts</h2>
-            <div className="space-y-3">
-              <div className="text-center py-8 animate-fade-in">
-                <p className="text-muted-foreground">No receipts available</p>
-                <p className="text-sm text-muted-foreground mt-1">Transaction receipts will appear here</p>
-              </div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold">Receipts</h2>
+              <Badge variant="outline" className="text-sm">
+                Total: ${(185804).toLocaleString('en-US')} USDC
+              </Badge>
             </div>
+            <ScrollArea className="h-[400px] pr-4">
+              <div className="space-y-3">
+                {[
+                  { daysAgo: 41, amount: 9682, currency: 'USDT' },
+                  { daysAgo: 41, amount: 383, currency: 'USDT' },
+                  { daysAgo: 40, amount: 20271, currency: 'USDT' },
+                  { daysAgo: 29, amount: 19965, currency: 'USDC' },
+                  { daysAgo: 29, amount: 662, currency: 'USDC' },
+                  { daysAgo: 28, amount: 9719, currency: 'USDC' },
+                  { daysAgo: 28, amount: 313, currency: 'USDC' },
+                  { daysAgo: 27, amount: 3015, currency: 'USDC' },
+                  { daysAgo: 26, amount: 29776, currency: 'USDC' },
+                  { daysAgo: 22, amount: 29832, currency: 'USDC' },
+                  { daysAgo: 22, amount: 789, currency: 'USDC' },
+                  { daysAgo: 20, amount: 17139, currency: 'USDC' },
+                  { daysAgo: 16, amount: 12514, currency: 'USDC' },
+                  { daysAgo: 16, amount: 15753, currency: 'USDC' },
+                  { daysAgo: 13, amount: 9932, currency: 'USDC' },
+                  { daysAgo: 9, amount: 6059, currency: 'USDC' },
+                ].map((receipt, index) => {
+                  const date = new Date();
+                  date.setDate(date.getDate() - receipt.daysAgo);
+                  const formattedDate = date.toLocaleDateString('en-US', { 
+                    month: '2-digit', 
+                    day: '2-digit', 
+                    year: 'numeric' 
+                  });
+                  
+                  return (
+                    <div 
+                      key={index}
+                      className="flex justify-between items-center p-4 rounded-lg bg-accent/50 hover:bg-accent transition-colors"
+                    >
+                      <div>
+                        <p className="font-medium">Receipt #{index + 1}</p>
+                        <p className="text-sm text-muted-foreground">{formattedDate} ({receipt.daysAgo} days ago)</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold text-lg">${receipt.amount.toLocaleString('en-US')}</p>
+                        <p className="text-sm text-muted-foreground">{receipt.currency}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </ScrollArea>
           </Card>
         )}
       </div>
