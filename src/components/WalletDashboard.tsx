@@ -890,6 +890,19 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
             </div>
           </Card>
         </div>
+
+        {/* Receipts Section - Jan Kijowski only */}
+        {isJan && (
+          <Card className="p-6 shadow-card-custom border-0 transition-all duration-300 hover:shadow-lg animate-fade-in">
+            <h2 className="text-xl font-semibold mb-4">Receipts</h2>
+            <div className="space-y-3">
+              <div className="text-center py-8 animate-fade-in">
+                <p className="text-muted-foreground">No receipts available</p>
+                <p className="text-sm text-muted-foreground mt-1">Transaction receipts will appear here</p>
+              </div>
+            </div>
+          </Card>
+        )}
       </div>
 
       {/* Send Dialog */}
