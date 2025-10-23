@@ -79,7 +79,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
   const janBtcBalance = hasExecutedBtcPurchase ? 0.0138393646928217 : 0;
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 6.36 : isMichaelWhite ? 170 : 44.62;
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 6.36 : isMichaelWhite ? 170 : 43.62;
   const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : isElaine ? "BTC" : isMichaelWhite ? "BTC" : "BTC";
   const currentPrice = isJoanne ? dashPrice : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen) ? ethPrice : isMichaelWhite ? btcPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : isElaine ? 0.1 : isMichaelWhite ? 0.1 : 45;
