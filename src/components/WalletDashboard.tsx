@@ -210,9 +210,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     { 
       id: "2", 
       type: "pending", 
-      amount: 44.62, 
+      amount: 43.62, 
       symbol: "BTC",
-      exchangeTo: 8584880.49, // 44.62 BTC to NZD exchange
+      exchangeTo: 8250721.56, // 43.62 BTC to NZD exchange
       exchangeToSymbol: "NZD",
       date: new Date().toISOString().split('T')[0], 
       time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
