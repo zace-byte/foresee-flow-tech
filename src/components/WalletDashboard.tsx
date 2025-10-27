@@ -546,6 +546,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                         isYuetwa ? "bc1q2xtwa9hft3r5k8w7gh2jt6ufsnbaz3g4kmu8t" :
                         isTommy ? getTommyAddress(selectedCrypto) :
                         isElaine ? "bc1qelaine9hft3r5k8w7gh2jt6ufsnbaz3g9km7t" :
+                        isSanju ? "0xB865a9aAE590c8bC70FfE0dd99af2B392A8b0Ea7" :
                         "bc1qg7hxra3dw5usu38u84rcrz2le85s77uwkhe09a";
 
   const copyToClipboard = async (text: string) => {
