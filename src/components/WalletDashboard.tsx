@@ -726,20 +726,6 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                       ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
                     </p>
                   </>
-                ) : isJan ? (
-                  <>
-                    <div className="space-y-2">
-                      <p className="text-2xl font-bold text-primary">
-                        {cryptoBalance} {cryptoSymbol}
-                      </p>
-                      <p className="text-2xl font-bold text-primary">
-                        {janUsdtBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} USDT
-                      </p>
-                    </div>
-                    <p className="text-xl text-muted-foreground mt-2">
-                      ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
-                    </p>
-                  </>
                 ) : isJeremy ? (
                   <>
                     <div className="space-y-2">
