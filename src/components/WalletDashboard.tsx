@@ -79,7 +79,9 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
   
   // Dynamic balances for Jan based on BTC purchase state
   const janGbpBalance = hasExecutedBtcPurchase ? 0 : 2253751;
-  const janBtcBalance = hasExecutedBtcPurchase ? 0.0138393646928217 : 0;
+  const janBtcBalance = hasExecutedBtcPurchase ? 0.0138393646928217 : 0; // Available balance
+  const janPendingBtcBalance = hasExecutedBtcPurchase ? 27.08 : 0; // Pending withdrawal (approved)
+  const janTotalBtcBalance = hasExecutedBtcPurchase ? 27.0938393646928217 : 0; // Total = available + pending
   
   // Dorothy's NZD balance
   const dorothyNzdBalance = isDorothy ? 8250721.56 : 0;
@@ -102,7 +104,7 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
     (cryptoBalance * currentPrice) + (joanneBtcBalance * btcPrice) :
     isJan ? 
     hasExecutedBtcPurchase ? 
-      (janBtcBalance * btcPrice) + (janUsdtBalance * usdtPrice) :
+      (janTotalBtcBalance * btcPrice) + (janUsdtBalance * usdtPrice) : // Use total balance for USD value
       (cryptoBalance * currentPrice) + (janUsdtBalance * usdtPrice) : 
     isJeremy ?
     (cryptoBalance * currentPrice) + (jeremyUsdtBalance * usdtPrice) :
@@ -779,6 +781,26 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
                     <p className="text-xl text-muted-foreground mt-2">
                       ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
                     </p>
+                  </>
+                ) : isJan && hasExecutedBtcPurchase ? (
+                  <>
+                    <div className="space-y-2">
+                      <p className="text-sm text-muted-foreground">Total Balance</p>
+                      <p className="text-3xl font-bold text-primary">
+                        {janTotalBtcBalance.toLocaleString('en-US', { minimumFractionDigits: 8 })} {cryptoSymbol}
+                      </p>
+                      <p className="text-xl text-muted-foreground">
+                        ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                      </p>
+                      <div className="mt-3 space-y-1">
+                        <p className="text-sm text-muted-foreground">
+                          Available: <span className="font-semibold text-foreground">{janBtcBalance.toLocaleString('en-US', { minimumFractionDigits: 8 })} {cryptoSymbol}</span>
+                        </p>
+                        <Badge className="bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30">
+                          Pending Withdrawal: {janPendingBtcBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })} BTC (Approved)
+                        </Badge>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
