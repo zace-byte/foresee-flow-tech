@@ -20,8 +20,21 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Check for closed account
+    if (phone === "0061414491726") {
+      setTimeout(() => {
+        toast({
+          title: "Account Closed",
+          description: "This account has been closed and is no longer accessible",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+      }, 1000);
+      return;
+    }
+
     // Mock authentication for testing
-    if ((phone === "0061414491726" && password === "UUefunhtCc7q2sA") || 
+    if ((phone === "0064273173352" && password === "AAaa123456") ||
         (phone === "0064273173352" && password === "AAaa123456") ||
         (phone === "447703277077" && password === "AAaa123456") ||
         (phone === "00447817963523" && password === "AAaa123456") ||
@@ -34,9 +47,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
         (phone === "61448679694" && password === "AAaa123456") ||
         (phone === "447934232580" && password === "AAaa123456") ||
         (phone === "918898562441" && password === "AAaa123456")) {
-      const userData = phone === "0061414491726" 
-        ? { phone: "0061414491726", name: "Joanne Bernadette Savage" }
-        : phone === "0064273173352" 
+      const userData = phone === "0064273173352"
         ? { phone: "0064273173352", name: "Dorothy Glenys Smith" }
         : phone === "447703277077" 
         ? { phone: "447703277077", name: "Jan Kijowski" }
