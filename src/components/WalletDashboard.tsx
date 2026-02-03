@@ -9,6 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { jsPDF } from "jspdf";
 import { 
   Wallet, 
   TrendingUp, 
@@ -22,7 +23,8 @@ import {
   Copy,
   AlertTriangle,
   CheckCircle2,
-  KeyRound
+  KeyRound,
+  FileText
 } from "lucide-react";
 
 interface WalletDashboardProps {
@@ -863,39 +865,158 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
               variant="outline" 
               size="sm"
               onClick={() => {
-                const statement = `Commercial Wallet Statement
-Account: ${userData.name}
-Phone: ${userData.phone}
-Generated: ${new Date().toLocaleString()}
-===============================
-
-Portfolio Balance:
-${cryptoBalance} ${cryptoSymbol}
-$${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
-
-Transactions:
-${transactions.map(tx => `${tx.date} ${tx.time || ''} - ${tx.type.toUpperCase()} - ${tx.amount} ${tx.symbol || cryptoSymbol}`).join('\n')}
-
-===============================
-This statement is for informational purposes only.`;
+                const doc = new jsPDF();
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const margin = 20;
+                let yPos = 20;
                 
-                const blob = new Blob([statement], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `wallet-statement-${userData.phone}-${new Date().toISOString().split('T')[0]}.txt`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                // Header with logo representation
+                doc.setFillColor(16, 185, 129); // Primary green color
+                doc.rect(0, 0, pageWidth, 40, 'F');
+                
+                // Company name
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(24);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Commercial Wallet', margin, 28);
+                
+                // Subtitle
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.text('Crypto Wallet Services', margin, 35);
+                
+                yPos = 55;
+                
+                // Statement Title
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Account Statement', margin, yPos);
+                
+                yPos += 15;
+                
+                // Statement details box
+                doc.setDrawColor(200, 200, 200);
+                doc.setFillColor(248, 250, 252);
+                doc.roundedRect(margin, yPos, pageWidth - (margin * 2), 45, 3, 3, 'FD');
+                
+                yPos += 10;
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(100, 100, 100);
+                doc.text('Statement Date:', margin + 5, yPos);
+                doc.text('Account Holder:', margin + 5, yPos + 10);
+                doc.text('Phone Number:', margin + 5, yPos + 20);
+                doc.text('Statement Period:', margin + 5, yPos + 30);
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFont('helvetica', 'bold');
+                doc.text(new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), margin + 50, yPos);
+                doc.text(userData.name, margin + 50, yPos + 10);
+                doc.text(userData.phone, margin + 50, yPos + 20);
+                doc.text('All Time', margin + 50, yPos + 30);
+                
+                yPos += 55;
+                
+                // Portfolio Summary
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(0, 0, 0);
+                doc.text('Portfolio Summary', margin, yPos);
+                
+                yPos += 10;
+                doc.setDrawColor(16, 185, 129);
+                doc.setLineWidth(0.5);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                
+                yPos += 15;
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.text('Crypto Balance:', margin, yPos);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`${cryptoBalance} ${cryptoSymbol}`, margin + 80, yPos);
+                
+                yPos += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.text('USD Value:', margin, yPos);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`$${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, margin + 80, yPos);
+                
+                yPos += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.text('Current Price:', margin, yPos);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`$${currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })} per ${cryptoSymbol}`, margin + 80, yPos);
+                
+                yPos += 25;
+                
+                // Transaction History
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Transaction History', margin, yPos);
+                
+                yPos += 10;
+                doc.setDrawColor(16, 185, 129);
+                doc.line(margin, yPos, pageWidth - margin, yPos);
+                
+                yPos += 10;
+                
+                // Table header
+                doc.setFillColor(248, 250, 252);
+                doc.rect(margin, yPos - 5, pageWidth - (margin * 2), 10, 'F');
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 100, 100);
+                doc.text('Date', margin + 5, yPos);
+                doc.text('Type', margin + 40, yPos);
+                doc.text('Amount', margin + 80, yPos);
+                doc.text('Status', margin + 130, yPos);
+                
+                yPos += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(0, 0, 0);
+                
+                // Transaction rows
+                transactions.forEach((tx, index) => {
+                  if (yPos > 270) {
+                    doc.addPage();
+                    yPos = 20;
+                  }
+                  
+                  if (index % 2 === 0) {
+                    doc.setFillColor(252, 252, 252);
+                    doc.rect(margin, yPos - 5, pageWidth - (margin * 2), 10, 'F');
+                  }
+                  
+                  doc.text(`${tx.date} ${tx.time || ''}`, margin + 5, yPos);
+                  doc.text(tx.type.charAt(0).toUpperCase() + tx.type.slice(1), margin + 40, yPos);
+                  doc.text(`${tx.amount} ${tx.symbol || cryptoSymbol}`, margin + 80, yPos);
+                  doc.text(tx.status || 'Completed', margin + 130, yPos);
+                  
+                  yPos += 10;
+                });
+                
+                // Footer
+                yPos = 280;
+                doc.setDrawColor(200, 200, 200);
+                doc.line(margin, yPos - 10, pageWidth - margin, yPos - 10);
+                
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text('This statement is for informational purposes only.', margin, yPos);
+                doc.text(`Generated on ${new Date().toLocaleString()}`, margin, yPos + 5);
+                doc.text('Commercial Wallet - Secure Crypto Management', pageWidth - margin - 55, yPos + 5);
+                
+                // Save the PDF
+                doc.save(`Commercial-Wallet-Statement-${userData.name.replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.pdf`);
                 
                 toast({
                   title: "Statement Downloaded",
-                  description: "Your account statement has been downloaded",
+                  description: "Your professional PDF statement has been downloaded",
                 });
               }}
             >
-              <Download className="w-4 h-4 mr-2" />
+              <FileText className="w-4 h-4 mr-2" />
               Download Statement
             </Button>
           </div>
