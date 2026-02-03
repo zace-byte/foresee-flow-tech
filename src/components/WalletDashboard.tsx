@@ -510,8 +510,20 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
       symbol: "ETH"
     }
   ];
+
+  const johnPaulTransactions = [
+    { 
+      id: "1", 
+      type: "received", 
+      amount: 43, 
+      date: new Date().toISOString().split('T')[0], 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+      hash: "bc1qJPN123...",
+      symbol: "BTC"
+    }
+  ];
   
-  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : isTomAdams ? tomAdamsTransactions : isMichaelWhite ? michaelWhiteTransactions : isSanju ? sanjuTransactions : dorothyTransactions;
+  const transactions = isJoanne ? joanneTransactions : isJan ? janTransactions : isJeremy ? jeremyTransactions : isBen ? benTransactions : isRami ? ramiTransactions : isLinda ? lindaTransactions : isYuetwa ? yuetwaTransactions : isTommy ? tommyTransactions : isElaine ? elaineTransactions : isTomAdams ? tomAdamsTransactions : isMichaelWhite ? michaelWhiteTransactions : isSanju ? sanjuTransactions : isJohnPaul ? johnPaulTransactions : dorothyTransactions;
 
   const getBenAddress = (crypto: string) => {
     switch (crypto) {
@@ -845,7 +857,48 @@ const WalletDashboard = ({ onLogout, userData }: WalletDashboardProps) => {
 
         {/* Recent Transactions */}
         <Card className="p-6 shadow-card-custom border-0 transition-all duration-300 hover:shadow-lg animate-fade-in">
-          <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Recent Transactions</h2>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                const statement = `Commercial Wallet Statement
+Account: ${userData.name}
+Phone: ${userData.phone}
+Generated: ${new Date().toLocaleString()}
+===============================
+
+Portfolio Balance:
+${cryptoBalance} ${cryptoSymbol}
+$${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+
+Transactions:
+${transactions.map(tx => `${tx.date} ${tx.time || ''} - ${tx.type.toUpperCase()} - ${tx.amount} ${tx.symbol || cryptoSymbol}`).join('\n')}
+
+===============================
+This statement is for informational purposes only.`;
+                
+                const blob = new Blob([statement], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `wallet-statement-${userData.phone}-${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                toast({
+                  title: "Statement Downloaded",
+                  description: "Your account statement has been downloaded",
+                });
+              }}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download Statement
+            </Button>
+          </div>
           <div className="space-y-3">
             {transactions.length === 0 ? (
               <div className="text-center py-8 animate-fade-in">
